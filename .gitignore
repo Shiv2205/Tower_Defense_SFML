@@ -1,0 +1,8 @@
+build
+build/_deps
+_deps
+res
+out
+.cache
+.idea
+.vs

@@ -1,0 +1,12 @@
+{
+  "files.associations": {
+    "*.sqlbook": "sql",
+    "*.ndjson": "jsonl",
+    "*.dbclient-js": "javascript",
+    "*.h": "cpp",
+    "optional": "cpp",
+    "cstddef": "cpp",
+    "xstring": "cpp"
+  },
+  "C_Cpp.default.compilerPath": "c:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.43.34808\\bin\\Hostx64\\x64\\cl.exe"
+}

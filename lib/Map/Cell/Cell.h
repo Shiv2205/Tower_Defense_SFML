@@ -1,0 +1,132 @@
+/**
+ * @file Cell.h
+ * @author Shivam Veerabudren
+ * @brief Base Class for all cell types
+ * @version 0.1
+ * @date 2025-02-14
+ *
+ * @copyright Copyright (c) 2025
+ *
+ */
+#ifndef CELL_H
+#define CELL_H
+
+#include "Util/Util.h"
+#include <iostream>
+#include <string>
+
+// Typedefs
+/**
+ * @brief Data type to store cell type
+ *
+ */
+enum Cell_Type
+{
+  BASIC,
+  SCENERY,
+  PATH
+};
+
+/**
+ * @brief Data type to store and handle cell positions
+ *
+ */
+struct Position
+{
+  u_32 row;
+  u_32 col;
+  bool linked;
+
+  Position( void ) : row( 0 ), col( 0 ), linked( false )
+  {
+  }
+
+  Position( u_32 row_val, u_32 col_val )
+    : row( row_val ), col( col_val ), linked( false )
+  {
+  }
+
+  std::string show( void );
+
+  friend bool operator==( const Position& pos_1, const Position& pos_2 );
+
+  friend bool operator!=( const Position& pos_1, const Position& pos_2 );
+};
+
+/**
+ * @brief Base class for all cell types
+ *
+ */
+class Cell
+{
+public:
+  /**
+   * @brief Construct a new Cell object
+   *
+   */
+  Cell( void );
+
+  /**
+   * @brief Construct a new Cell object
+   *
+   * @param cell_type Type of cell
+   * @param cell_graphic Graphical representation of cell type (Ex:
+   * Path cell -> #)
+   */
+  Cell( Cell_Type cell_type, std::string cell_graphic );
+
+  /**
+   * @brief Destroy the Cell object
+   *
+   */
+  ~Cell( void );
+
+  // Getters
+  /**
+   * @brief Get the Cell Type member var
+   *
+   * @return Cell_Type
+   */
+  Cell_Type getCellType( void ) const;
+
+  /**
+   * @brief Get the Graphic member var
+   *
+   * @return std::string
+   */
+  std::string getGraphic( void ) const;
+
+  // Setters
+  /**
+   * @brief Set the Cell Type member var
+   *
+   * @param new_type
+   */
+  void setCellType( const Cell_Type& new_type );
+
+  /**
+   * @brief Set the Graphic member var
+   *
+   * @param new_graphic
+   */
+  void setGraphic( std::string new_graphic );
+
+  friend std::ostream& operator<<( std::ostream& cout, const Cell& cell_obj );
+
+private:
+  /**
+   * @brief Stores the type of cell
+   *
+   */
+  Cell_Type type;
+
+  /**
+   * @brief Stores the graphical representation of the cell
+   * `C` - Basic Cell
+   * `~` - Scenery Cell (`T` -  Scenery with Tower)
+   * `#` - Path Cell
+   */
+  std::string graphic;
+};
+
+#endif // CELL_H
