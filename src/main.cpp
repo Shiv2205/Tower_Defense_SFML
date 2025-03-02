@@ -25,9 +25,9 @@ int main()
   TileMap   my_map( map_dim );
   Vec_2f    map_pos;
 
-  map_pos.x = ( SCREEN_W - (map_dim.width * 32) )  / 2;
-  map_pos.y = ( SCREEN_H - (map_dim.height * 32) ) / 2;
-  my_map.setPosition( map_pos );
+  //map_pos.x = 0; //( SCREEN_W - ( map_dim.width * 32 ) ) / 2;
+  //map_pos.y = 0; //( SCREEN_H - ( map_dim.height * 32 ) ) / 2;
+  //my_map.setPosition( map_pos );
 
   // Selector
   sf::VertexArray selector;
@@ -36,12 +36,13 @@ int main()
 
   sf::Vertex* selector_vts = &selector[ 0 ];
   sf::Color   selector_color( 255, 255, 255, 200 );
-  Position    selector_pos( (map_pos.y / 32), (map_pos.x / 32));
+  Position    selector_pos( 0, 6 );
   for ( u_32 i = 0; i < 6; i++ )
   {
     selector_vts[ i ].color = selector_color;
   }
   InitVertices( selector_vts, selector_pos );
+  
 
   Position entry( 0, 6 );
   if ( ! my_map.MakePath( entry, true ) )
@@ -100,11 +101,11 @@ void event_handler( sf::RenderWindow& window, std::string& user_in )
     {
       window.close();
     }
-    if ( const auto* textEntered = event->getIf<sf::Event::TextEntered>() )
+    if ( const auto* text_entered = event->getIf<sf::Event::TextEntered>() )
     {
-      if ( textEntered->unicode < 128 )
+      if ( text_entered->unicode < 128 )
       {
-        user_in += static_cast<char>( textEntered->unicode );
+        user_in += static_cast<char>( text_entered->unicode );
       }
       std::cout << "User Typed: " << user_in << std::endl;
     }

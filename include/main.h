@@ -9,7 +9,6 @@
 #include <string>
 #include <vector>
 
-#define LOG( x ) ( std::cout << x << std::endl )
 #define SCREEN_W 1280U
 #define SCREEN_H 720U
 

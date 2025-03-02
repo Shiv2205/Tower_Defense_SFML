@@ -4,7 +4,8 @@ TileMap::TileMap( void ) : Map()
 {
 }
 
-TileMap::TileMap( const Dimension& dimensions ) : Map( dimensions ), scene_tex_loaded(false), path_tex_loaded(false)
+TileMap::TileMap( const Dimension& dimensions )
+    : Map( dimensions ), scene_tex_loaded( false ), path_tex_loaded( false )
 {
 }
 
