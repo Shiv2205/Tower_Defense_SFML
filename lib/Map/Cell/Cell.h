@@ -28,32 +28,6 @@ enum Cell_Type
 };
 
 /**
- * @brief Data type to store and handle cell positions
- *
- */
-struct Position
-{
-  u_32 row;
-  u_32 col;
-  bool linked;
-
-  Position( void ) : row( 0 ), col( 0 ), linked( false )
-  {
-  }
-
-  Position( u_32 row_val, u_32 col_val )
-    : row( row_val ), col( col_val ), linked( false )
-  {
-  }
-
-  std::string show( void );
-
-  friend bool operator==( const Position& pos_1, const Position& pos_2 );
-
-  friend bool operator!=( const Position& pos_1, const Position& pos_2 );
-};
-
-/**
  * @brief Base class for all cell types
  *
  */

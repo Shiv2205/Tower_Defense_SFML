@@ -1,7 +1,7 @@
 #ifndef SFML_UTIL_H
 #define SFML_UTIL_H
 
-#include "Map/Cell/Cell.h"
+#include "Util.h"
 #include <SFML/Graphics/Vertex.hpp>
 #include <SFML/Graphics/VertexArray.hpp>
 
