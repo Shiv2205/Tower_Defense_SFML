@@ -10,7 +10,7 @@ if ($type -eq "dev")
 }
 elseif ($type -eq "build")
 {
-  if ($build -eq "full") { cmake -B .\build }
+  if ($build -eq "full") { cmake -DCMAKE_TOOLCHAIN_FILE=toolchain.cmake -S . -B .\build }
   cmake --build .\build
 }
 elseif ($type -eq "run")
@@ -19,5 +19,5 @@ elseif ($type -eq "run")
 }
 elseif ($type -eq "clean")
 {
-  rmdir ./build -Recurse -Force
+  Remove-Item ./build -Recurse -Force
 }
