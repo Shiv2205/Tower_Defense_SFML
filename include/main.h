@@ -1,6 +1,7 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+#include "Map/MapObserver.h"
 #include "Map/Selector/Selector.h"
 #include "Map/TileMap.h"
 #include "Parser/Parser.h"

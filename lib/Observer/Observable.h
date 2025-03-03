@@ -1,21 +1,21 @@
 #ifndef OBSERVABLE_H
 #define OBSERVABLE_H
 
-#include "Observer.h"
 #include <vector>
+
+// Forward declaration
+class Observer;
 
 class Observable
 {
 public:
+  virtual void addObserver( const Observer* observer );
 
-  virtual void addObserver(const Observer* observer);
+  virtual void removeObserver( const Observer* observer );
 
-  virtual void removeObserver(const Observer* observer);
-
-  virtual void notify(void);
+  virtual void notify( void );
 
 private:
-
   std::vector<const Observer*> observers;
 };
 

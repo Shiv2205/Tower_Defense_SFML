@@ -22,20 +22,22 @@ int main()
   sf::Text my_text( font, "Map Creator", 26 );
   my_text.setPosition( { 640.f, 0.f } );
 
-  Dimension map_dim( 20, 20 );
-  TileMap   my_map( map_dim );
-  Vec_2f    map_pos;
+  // Observers
+  MapObserver map_obs;
 
-  // Selector
+  // Subjects
+  TileMap   my_map;
+  
+  // Attach Observers
+  my_map.addObserver( &map_obs );
+  
+  // Cell Selector
   Selector selector;
-
-  // buildPath( my_map );
-
-  if ( ! my_map.LoadScenery() )
-  {
-    return EXIT_FAILURE;
-  }
-
+  
+  //Set Map dimensions
+  Dimension map_dim( 20, 20 );
+  my_map.setDimensions(map_dim);
+  
   std::string user_in = "";
   while ( window.isOpen() )
   {
@@ -53,14 +55,14 @@ int main()
 
     // window.draw( my_text );
     window.clear( sf::Color::Black );
-    if ( reload )
-    {
-      reload = false;
-    }
+
     window.draw( my_map );
     window.draw( selector );
+    
     window.display();
   }
+
+  my_map.removeObserver(&map_obs);
 }
 
 void keyboardListener( const sf::Event::KeyReleased* released_key, Selector& selector, TileMap& my_map )
@@ -123,10 +125,6 @@ void keyboardListener( const sf::Event::KeyReleased* released_key, Selector& sel
       draw_path   = false;
       is_exit_set = true;
     }
-    if ( ! my_map.LoadScenery() )
-    {
-      LOG( "Failed to load map" );
-    }
     break;
 
   default:
@@ -138,10 +136,6 @@ void keyboardListener( const sf::Event::KeyReleased* released_key, Selector& sel
     if ( ! my_map.MakePath( new_pos ) )
     {
       LOG( "Invalid position: " + new_pos.show() );
-    }
-    if ( ! my_map.LoadScenery() )
-    {
-      LOG( "Failed to load map" );
     }
   }
 
@@ -197,6 +191,7 @@ void buildPath( Map& my_map )
   }
 }
 
+// Vec_2f    map_pos;
 // map_pos.x = 0; //( SCREEN_W - ( map_dim.width * 32 ) ) / 2;
 // map_pos.y = 0; //( SCREEN_H - ( map_dim.height * 32 ) ) / 2;
 // my_map.setPosition( map_pos );

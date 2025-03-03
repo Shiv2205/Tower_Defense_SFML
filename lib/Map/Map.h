@@ -11,6 +11,7 @@
 #ifndef MAP_H
 #define MAP_H
 
+#include "Observer/Observable.h"
 #include "Cell/Path.h"
 #include "Cell/Scenery.h"
 #include "Util/Util.h"
@@ -40,7 +41,7 @@ struct Dimension
  * @brief Class to store and handle the cell grid that make up the Map
  *
  */
-class Map
+class Map: public Observable
 {
 public:
   /**

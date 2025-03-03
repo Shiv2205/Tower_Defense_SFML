@@ -12,6 +12,7 @@
 
 Map::Map( void ) : Map( Dimension( 5, 5 ) )
 {
+  this->notify();
 }
 
 Map::Map( const Dimension& map_dimensions ) : dimensions( map_dimensions )
@@ -20,6 +21,8 @@ Map::Map( const Dimension& map_dimensions ) : dimensions( map_dimensions )
   u_32 height = this->dimensions.height;
 
   InitGrid( width, height );
+
+  this->notify();
 }
 
 Map::~Map( void )
@@ -58,16 +61,22 @@ void Map::setDimensions( const Dimension& dimensions )
   this->dimensions = dimensions;
 
   InitGrid( dimensions.width, dimensions.height );
+
+  this->notify();
 }
 
 void Map::setEntry( const Position& entry )
 {
   this->entry = entry;
+
+  this->notify();
 }
 
 void Map::setExit( const Position& exit )
 {
   this->exit = exit;
+
+  this->notify();
 }
 
 void Map::Display( void )
@@ -123,6 +132,8 @@ bool Map::MakePath( Position& pos, bool is_entry, bool is_exit )
   delete target_cell;
   this->grid[ pos.row ][ pos.col ] = new Path( is_entry, is_exit );
 
+  this->notify();
+
   return true;
 }
 
@@ -138,6 +149,8 @@ bool Map::AddTower( Position& pos, Tower* new_tower )
   Scenery* scene_cell = static_cast<Scenery*>( target_cell );
 
   scene_cell->setTower( new_tower );
+
+  this->notify();
 
   return true;
 }
