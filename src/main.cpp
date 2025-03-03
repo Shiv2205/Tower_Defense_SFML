@@ -1,49 +1,171 @@
 #include "main.h"
 
+void buildPath( Map& my_map );
+
+enum GameState
+{
+  MAP_INIT,
+  PATH_BUILDER
+};
+
 int main()
 {
-  auto window = sf::RenderWindow( sf::VideoMode( { SCREEN_W, SCREEN_H } ), "CMake SFML Project" );
+  auto window = sf::RenderWindow( sf::VideoMode( { SCREEN_W, SCREEN_H } ), "Tower Defense SFML" );
   window.setVerticalSyncEnabled( true );
   // window.setFramerateLimit(144);
+
+  GameState game_state = PATH_BUILDER;
 
   // Text
   sf::Font font;
   loadFont( font );
-  sf::Text my_text( font, "Hello World", 26 );
-
-  // Image
-  // sf::Texture img_texture;
-  // loadTexture( img_texture, img_path );
-  // sf::Sprite my_sprite( img_texture );
-
-  // sf::Vector2i position( 0, 128 );
-  // sf::Vector2i size( 32, 32 );
-  // sf::IntRect  sprite_rect( position, size );
-  // my_sprite.setTextureRect( sprite_rect );
+  sf::Text my_text( font, "Map Creator", 26 );
+  my_text.setPosition( { 640.f, 0.f } );
 
   Dimension map_dim( 20, 20 );
   TileMap   my_map( map_dim );
   Vec_2f    map_pos;
 
-  //map_pos.x = 0; //( SCREEN_W - ( map_dim.width * 32 ) ) / 2;
-  //map_pos.y = 0; //( SCREEN_H - ( map_dim.height * 32 ) ) / 2;
-  //my_map.setPosition( map_pos );
-
   // Selector
-  sf::VertexArray selector;
-  selector.setPrimitiveType( sf::PrimitiveType::Triangles );
-  selector.resize( 6 );
+  Selector selector;
 
-  sf::Vertex* selector_vts = &selector[ 0 ];
-  sf::Color   selector_color( 255, 255, 255, 200 );
-  Position    selector_pos( 0, 6 );
-  for ( u_32 i = 0; i < 6; i++ )
+  // buildPath( my_map );
+
+  if ( ! my_map.LoadScenery() )
   {
-    selector_vts[ i ].color = selector_color;
+    return EXIT_FAILURE;
   }
-  InitVertices( selector_vts, selector_pos );
-  
 
+  std::string user_in = "";
+  while ( window.isOpen() )
+  {
+    while ( const std::optional event = window.pollEvent() )
+    {
+      if ( event->is<sf::Event::Closed>() )
+      {
+        window.close();
+      }
+      if ( const auto* released_key = event->getIf<sf::Event::KeyReleased>() )
+      {
+        keyboardListener( released_key, selector, my_map );
+      }
+    }
+
+    // window.draw( my_text );
+    window.clear( sf::Color::Black );
+    if ( reload )
+    {
+      reload = false;
+    }
+    window.draw( my_map );
+    window.draw( selector );
+    window.display();
+  }
+}
+
+void keyboardListener( const sf::Event::KeyReleased* released_key, Selector& selector, TileMap& my_map )
+{
+  sf::Keyboard::Scancode key_code = released_key->scancode;
+  Dimension              limits   = my_map.getDimensions();
+  Position               new_pos( selector.getPos() );
+
+  switch ( key_code )
+  {
+  case LEFT:
+    if ( new_pos.col > 0 )
+    {
+      new_pos.col--;
+      selector.setPos( new_pos );
+    }
+    break;
+
+  case RIGHT:
+    if ( new_pos.col < ( limits.width - 1 ) )
+    {
+      new_pos.col++;
+      selector.setPos( new_pos );
+    }
+    break;
+
+  case UP:
+    if ( new_pos.row > 0 )
+    {
+      new_pos.row--;
+      selector.setPos( new_pos );
+    }
+    break;
+
+  case DOWN:
+    if ( new_pos.row < ( limits.height - 1 ) )
+    {
+      new_pos.row++;
+      selector.setPos( new_pos );
+    }
+    break;
+
+  case ENTER:
+    LOG( "Enter pressed" );
+    if ( ! is_entry_set )
+    {
+      if ( ! my_map.MakePath( new_pos, true ) )
+      {
+        LOG( "Invalid position: " + new_pos.show() );
+      }
+      draw_path    = true;
+      is_entry_set = true;
+    }
+    else if ( ! is_exit_set )
+    {
+      if ( ! my_map.MakePath( new_pos, false, true ) )
+      {
+        LOG( "Invalid position: " + new_pos.show() );
+      }
+      draw_path   = false;
+      is_exit_set = true;
+    }
+    if ( ! my_map.LoadScenery() )
+    {
+      LOG( "Failed to load map" );
+    }
+    break;
+
+  default:
+    break;
+  }
+
+  if ( ( key_code == UP || key_code == DOWN || key_code == LEFT || key_code == RIGHT ) && ( draw_path ) )
+  {
+    if ( ! my_map.MakePath( new_pos ) )
+    {
+      LOG( "Invalid position: " + new_pos.show() );
+    }
+    if ( ! my_map.LoadScenery() )
+    {
+      LOG( "Failed to load map" );
+    }
+  }
+
+  reload = true;
+}
+
+void loadFont( sf::Font& font )
+{
+  if ( ! font.openFromFile( font_path ) )
+  {
+    LOG( "Error loading font" );
+  }
+}
+
+void loadTexture( sf::Texture& texture, std::string texture_path )
+{
+  if ( ! texture.loadFromFile( texture_path ) )
+  {
+    LOG( "Error loading texture" );
+  }
+}
+
+void buildPath( Map& my_map )
+{
   Position entry( 0, 6 );
   if ( ! my_map.MakePath( entry, true ) )
   {
@@ -73,57 +195,8 @@ int main()
       LOG( "Invalid position: " + path.show() );
     }
   }
-
-  if ( ! my_map.LoadScenery() )
-  {
-    return EXIT_FAILURE;
-  }
-
-  std::string user_in = "";
-  while ( window.isOpen() )
-  {
-    event_handler( window, user_in );
-
-    window.clear( sf::Color::Black );
-
-    // window.draw(my_text);
-    window.draw( my_map );
-    window.draw( selector );
-    window.display();
-  }
 }
 
-void event_handler( sf::RenderWindow& window, std::string& user_in )
-{
-  while ( const std::optional event = window.pollEvent() )
-  {
-    if ( event->is<sf::Event::Closed>() )
-    {
-      window.close();
-    }
-    if ( const auto* text_entered = event->getIf<sf::Event::TextEntered>() )
-    {
-      if ( text_entered->unicode < 128 )
-      {
-        user_in += static_cast<char>( text_entered->unicode );
-      }
-      std::cout << "User Typed: " << user_in << std::endl;
-    }
-  }
-}
-
-void loadFont( sf::Font& font )
-{
-  if ( ! font.openFromFile( font_path ) )
-  {
-    LOG( "Error loading font" );
-  }
-}
-
-void loadTexture( sf::Texture& texture, std::string texture_path )
-{
-  if ( ! texture.loadFromFile( texture_path ) )
-  {
-    LOG( "Error loading texture" );
-  }
-}
+// map_pos.x = 0; //( SCREEN_W - ( map_dim.width * 32 ) ) / 2;
+// map_pos.y = 0; //( SCREEN_H - ( map_dim.height * 32 ) ) / 2;
+// my_map.setPosition( map_pos );

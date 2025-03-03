@@ -14,21 +14,21 @@ def main():
         build = sys.argv[2]
 
     if type == "dev":
-        subprocess.run(["python3 build.py"], shell=True)
-        subprocess.run(["python3 build.py", "run"], shell=True)
+        subprocess.run(["python", "build.py"])
+        subprocess.run(["python", "build.py", "run"])
 
     elif type == "build":
         if build == "full":
-            subprocess.run(["cmake", "-DCMAKE_TOOLCHAIN_FILE=toolchain.cmake", "-S", ".","-B", "./build"], shell=True)
+            subprocess.run(["cmake", "-DCMAKE_TOOLCHAIN_FILE=toolchain.cmake", "-S", ".", "-B", "./build"])
 
-        subprocess.run(["cmake", "--build", "./build"], shell=True)
+        subprocess.run(["cmake", "--build", "./build"])
 
     elif type == "run":
-        subprocess.run(["./build/bin/Debug/sfml_game.exe"], shell=True)
+        subprocess.run(["./build/bin/sfml_game"])
 
     elif type == "clean":
         shutil.rmtree("./build", ignore_errors=True)
-        
+
     else:
         print(f"Unknown type: {type}")
 
