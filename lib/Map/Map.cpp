@@ -84,7 +84,7 @@ void Map::Display( void )
   LOG( *this );
 }
 
-bool Map::MakePath( Position& pos, bool is_entry, bool is_exit )
+bool Map::MakePath( const Position& pos, bool is_entry, bool is_exit )
 {
   u_32  width       = this->dimensions.width - 1;
   u_32  height      = this->dimensions.height - 1;

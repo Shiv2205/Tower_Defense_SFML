@@ -46,7 +46,7 @@ struct Position
   {
   }
 
-  std::string show( void );
+  std::string show( void ) const;
 
   friend bool operator==( const Position& pos_1, const Position& pos_2 );
 

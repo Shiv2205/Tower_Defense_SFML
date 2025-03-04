@@ -1,6 +1,6 @@
 #include "Util.h"
 
-std::string Position::show( void )
+std::string Position::show( void ) const
 {
   std::string pos  = "(";
   pos             += std::to_string( row ) + ", " + std::to_string( col ) + ")";

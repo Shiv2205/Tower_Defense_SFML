@@ -128,7 +128,7 @@ public:
    * @return `true:` If cell was successfully changed to Path cell
    * @return `false:`If an error occurred during checks
    */
-  bool MakePath( Position& pos, bool is_entry = false, bool is_exit = false );
+  bool MakePath( const Position& pos, bool is_entry = false, bool is_exit = false );
 
   /**
    * @brief Add a Tower to a Scenery cell
