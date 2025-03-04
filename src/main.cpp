@@ -1,20 +1,10 @@
 #include "main.h"
 
-void buildPath( Map& my_map );
-
-enum GameState
-{
-  MAP_INIT,
-  PATH_BUILDER
-};
-
 int main()
 {
   auto window = sf::RenderWindow( sf::VideoMode( { SCREEN_W, SCREEN_H } ), "Tower Defense SFML" );
   window.setVerticalSyncEnabled( true );
   // window.setFramerateLimit(144);
-
-  GameState game_state = PATH_BUILDER;
 
   // Text
   sf::Font font;
@@ -26,18 +16,18 @@ int main()
   MapObserver map_obs;
 
   // Subjects
-  TileMap   my_map;
-  
+  TileMap my_map;
+
   // Attach Observers
   my_map.addObserver( &map_obs );
-  
+
   // Cell Selector
   Selector selector;
-  
-  //Set Map dimensions
-  Dimension map_dim( 20, 20 );
-  my_map.setDimensions(map_dim);
-  
+
+  // Set Map dimensions
+  Dimension map_dim( 25, 25 );
+  my_map.setDimensions( map_dim );
+
   std::string user_in = "";
   while ( window.isOpen() )
   {
@@ -58,11 +48,11 @@ int main()
 
     window.draw( my_map );
     window.draw( selector );
-    
+
     window.display();
   }
 
-  my_map.removeObserver(&map_obs);
+  my_map.removeObserver( &map_obs );
 }
 
 void keyboardListener( const sf::Event::KeyReleased* released_key, Selector& selector, TileMap& my_map )
@@ -105,38 +95,18 @@ void keyboardListener( const sf::Event::KeyReleased* released_key, Selector& sel
     }
     break;
 
-  case ENTER:
-    LOG( "Enter pressed" );
-    if ( ! is_entry_set )
-    {
-      if ( ! my_map.MakePath( new_pos, true ) )
-      {
-        LOG( "Invalid position: " + new_pos.show() );
-      }
-      draw_path    = true;
-      is_entry_set = true;
-    }
-    else if ( ! is_exit_set )
-    {
-      if ( ! my_map.MakePath( new_pos, false, true ) )
-      {
-        LOG( "Invalid position: " + new_pos.show() );
-      }
-      draw_path   = false;
-      is_exit_set = true;
-    }
-    break;
-
   default:
     break;
   }
 
-  if ( ( key_code == UP || key_code == DOWN || key_code == LEFT || key_code == RIGHT ) && ( draw_path ) )
+  switch ( game_state )
   {
-    if ( ! my_map.MakePath( new_pos ) )
-    {
-      LOG( "Invalid position: " + new_pos.show() );
-    }
+  case PATH_BUILDER:
+    buildPathHandler( key_code, my_map, new_pos );
+    break;
+
+  default:
+    break;
   }
 
   reload = true;
@@ -158,35 +128,36 @@ void loadTexture( sf::Texture& texture, std::string texture_path )
   }
 }
 
-void buildPath( Map& my_map )
+void buildPathHandler( const sf::Keyboard::Scancode& key_code, Map& my_map, const Position& new_pos )
 {
-  Position entry( 0, 6 );
-  if ( ! my_map.MakePath( entry, true ) )
-  {
-    LOG( "Invalid position: " + entry.show() );
-  }
+  bool is_arrow_key = key_code == UP || key_code == DOWN || key_code == LEFT || key_code == RIGHT;
 
-  Position exit( 14, 19 );
-  if ( ! my_map.MakePath( exit, false, true ) )
+  if ( ( is_arrow_key ) && ( draw_path ) )
   {
-    LOG( "Invalid position: " + exit.show() );
-  }
-
-  for ( u_32 i = 1; i < 15; i++ )
-  {
-    Position path( i, 6 );
-    if ( ! my_map.MakePath( path ) )
+    if ( ! my_map.MakePath( new_pos ) )
     {
-      LOG( "Invalid position: " + path.show() );
+      LOG( "Invalid position: " + new_pos.show() );
     }
   }
-
-  for ( u_32 i = 7; i < 19; i++ )
+  else if ( ENTER == key_code )
   {
-    Position path( 14, i );
-    if ( ! my_map.MakePath( path ) )
+    if ( ! is_entry_set )
     {
-      LOG( "Invalid position: " + path.show() );
+      if ( ! my_map.MakePath( new_pos, true ) )
+      {
+        LOG( "Invalid position: " + new_pos.show() );
+      }
+      draw_path    = true;
+      is_entry_set = true;
+    }
+    else if ( ! is_exit_set )
+    {
+      if ( ! my_map.MakePath( new_pos, false, true ) )
+      {
+        LOG( "Invalid position: " + new_pos.show() );
+      }
+      draw_path   = false;
+      is_exit_set = true;
     }
   }
 }
