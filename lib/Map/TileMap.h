@@ -1,3 +1,13 @@
+/**
+ * @file TileMap.h
+ * @author Shivam Veerabudren
+ * @brief Tilemap includes SFML graphics functionality to Map class
+ * @version 0.1
+ * @date 2025-03-01
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
 #ifndef TILEMAP_H
 #define TILEMAP_H
 
@@ -16,13 +26,32 @@
 class TileMap : public Map, public sf::Drawable, public sf::Transformable
 {
 public:
+  /**
+   * @brief Construct a new Tile Map object
+   * 
+   */
   TileMap( void );
 
+  /**
+   * @brief Construct a new Tile Map object
+   * 
+   * @param dimensions Dimensions of the tile map
+   */
   TileMap( const Dimension& dimensions );
 
+  /**
+   * @brief Destroy the Tile Map object
+   * 
+   */
   ~TileMap( void );
 
-  bool LoadScenery( void );
+  /**
+   * @brief Load the Tile Map object
+   * 
+   * @return true 
+   * @return false 
+   */
+  bool Load( void );
 
 private:
 

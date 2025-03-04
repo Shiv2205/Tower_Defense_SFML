@@ -13,7 +13,7 @@ TileMap::~TileMap( void )
 {
 }
 
-bool TileMap::LoadScenery( void )
+bool TileMap::Load( void )
 {
   this->scene_tex_loaded = this->LoadSceneryTexture();
   this->path_tex_loaded  = this->LoadPathTexture();
