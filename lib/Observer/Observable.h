@@ -9,9 +9,9 @@ class Observer;
 class Observable
 {
 public:
-  virtual void addObserver( const Observer* observer );
+  virtual void attach( const Observer* observer );
 
-  virtual void removeObserver( const Observer* observer );
+  virtual void detach( const Observer* observer );
 
   virtual void notify( void );
 

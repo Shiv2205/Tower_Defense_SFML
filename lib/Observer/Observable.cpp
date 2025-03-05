@@ -1,12 +1,12 @@
 #include "Observable.h"
 #include "Observer.h"
 
-void Observable::addObserver( const Observer* observer )
+void Observable::attach( const Observer* observer )
 {
   this->observers.push_back( observer );
 }
 
-void Observable::removeObserver( const Observer* observer )
+void Observable::detach( const Observer* observer )
 {
   auto begin = this->observers.begin();
 
