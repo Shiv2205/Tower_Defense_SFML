@@ -9,12 +9,12 @@ Window::~Window( void )
 {
 }
 
-void Window::addContent( const sf::Drawable& window_content )
+void Window::addContent( const sf::Drawable* window_content )
 {
   this->contents.push_back( window_content );
 }
 
-void Window::removeContent( const sf::Drawable& window_content )
+void Window::removeContent( const sf::Drawable* window_content )
 {
   auto begin  = this->contents.begin();
   auto end    = this->contents.end();
@@ -28,8 +28,8 @@ void Window::removeContent( const sf::Drawable& window_content )
 
 void Window::drawContents( void )
 {
-  for ( const sf::Drawable& content : this->contents )
+  for ( const sf::Drawable* content : this->contents )
   {
-    this->draw( content );
+    this->draw( *content );
   }
 }

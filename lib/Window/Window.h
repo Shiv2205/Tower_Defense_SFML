@@ -14,14 +14,14 @@ public:
 
   ~Window( void );
 
-  void addContent( const sf::Drawable& window_content );
+  void addContent( const sf::Drawable* window_content );
 
-  void removeContent( const sf::Drawable& window_content );
+  void removeContent( const sf::Drawable* window_content );
 
   void drawContents( void );
 
 private:
-  std::vector<const sf::Drawable&> contents;
+  std::vector<const sf::Drawable*> contents;
 };
 
 #endif // WINDOW_H

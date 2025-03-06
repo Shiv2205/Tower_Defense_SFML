@@ -3,12 +3,6 @@
 
 #include "Util/Sfml_Util.h"
 #include "Util/Util.h"
-#include <SFML/Graphics/Drawable.hpp>
-#include <SFML/Graphics/Transformable.hpp>
-#include <SFML/Graphics/RenderTarget.hpp>
-#include <SFML/Graphics/RenderStates.hpp>
-#include <SFML/Graphics/Color.hpp>
-#include <SFML/Graphics/VertexArray.hpp>
 
 class Selector : public sf::Drawable, public sf::Transformable
 {
