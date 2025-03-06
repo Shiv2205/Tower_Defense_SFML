@@ -54,7 +54,8 @@ private:
   void drawComponent( const sf::VertexArray& vertices, const sf::Texture& texture, sf::RenderTarget& target,
                       sf::RenderStates states ) const;
 
-  bool LoadTexture( bool& is_tex_loaded, const Vec_2i& position, sf::Texture& texture, const char* tex_path );
+  bool LoadTexture( bool& is_tex_loaded, sf::Texture& texture, const char* tex_path, const Vec_2i& position,
+                    const Vec_2i tile_size );
 
   sf::VertexArray scene_vertices;
   sf::VertexArray path_vertices;

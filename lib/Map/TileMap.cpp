@@ -16,11 +16,11 @@ TileMap::~TileMap( void )
 bool TileMap::Load( void )
 {
   this->scene_tex_loaded =
-      this->LoadTexture( this->scene_tex_loaded, { 0, 128 }, this->scene_texture, SCENERY_TEXTURE );
+      this->LoadTexture( this->scene_tex_loaded, this->scene_texture, SCENERY_TEXTURE, { 0, 128 }, { 32, 32 }  );
   this->path_tex_loaded =
-      this->LoadTexture( this->path_tex_loaded, { 0, 128 }, this->path_texture, PATH_TEXTURE );
+      this->LoadTexture( this->path_tex_loaded, this->path_texture, PATH_TEXTURE, { 0, 128 }, { 32, 32 }  );
   this->tower_tex_loaded =
-      this->LoadTexture( this->tower_tex_loaded, { 0, 0 }, this->tower_texture, TOWER_TEXTURE );
+      this->LoadTexture( this->tower_tex_loaded, this->tower_texture, TOWER_TEXTURE, { 0, 0 }, { 96, 32 } );
 
   if ( ! scene_tex_loaded || ! path_tex_loaded || ! tower_tex_loaded )
   {
@@ -50,7 +50,6 @@ bool TileMap::Load( void )
         Scenery* scene_cell = static_cast<Scenery*>( target_cell );
 
         sf::Vertex* scene_cell_vertices = &this->scene_vertices[ ( row + ( col * map.height ) ) * 6 ];
-        sf::Vertex* tower_cell_vertices = &this->tower_vertices[ ( row + ( col * map.height ) ) * 6 ];
 
         // Set position of the 2 triangles' vertices to form Cell
         InitVertices( scene_cell_vertices, target_pos );
@@ -58,18 +57,20 @@ bool TileMap::Load( void )
         Tower* cell_tower = scene_cell->getTower();
         if ( nullptr != cell_tower )
         {
-          std::string tower_name = cell_tower->getName();
+          sf::Vertex* tower_cell_vertices = &this->tower_vertices[ ( row + ( col * map.height ) ) * 6 ];
+          std::string tower_name          = cell_tower->getName();
+
           if ( ICE_TOWER == tower_name )
           {
             InitVertices( tower_cell_vertices, target_pos );
           }
           else if ( POISON_TOWER == tower_name )
           {
-            InitVertices( tower_cell_vertices, target_pos, { 32, 0 } );
+            InitVertices( tower_cell_vertices, target_pos, { 1, 0 } );
           }
           else if ( ELEC_TOWER == tower_name )
           {
-            InitVertices( tower_cell_vertices, target_pos, { 64, 0 } );
+            InitVertices( tower_cell_vertices, target_pos, { 2, 0 } );
           }
         }
       }
@@ -92,11 +93,11 @@ void TileMap::draw( sf::RenderTarget& target, sf::RenderStates states ) const
   states.transform *= getTransform();
 
   // apply the scenery texture and draw scenery vertex array
-  this->drawComponent(this->scene_vertices, this->scene_texture, target, states);
+  this->drawComponent( this->scene_vertices, this->scene_texture, target, states );
   // apply the path texture and draw path vertex array
-  this->drawComponent(this->path_vertices, this->path_texture, target, states);
+  this->drawComponent( this->path_vertices, this->path_texture, target, states );
   // apply the tower texture and draw tower vertex array
-  this->drawComponent(this->tower_vertices, this->tower_texture, target, states);
+  this->drawComponent( this->tower_vertices, this->tower_texture, target, states );
 }
 
 void TileMap::drawComponent( const sf::VertexArray& vertices, const sf::Texture& texture,
@@ -109,13 +110,11 @@ void TileMap::drawComponent( const sf::VertexArray& vertices, const sf::Texture&
   target.draw( vertices, states );
 }
 
-bool TileMap::LoadTexture( bool& is_tex_loaded, const Vec_2i& position, sf::Texture& texture,
-                           const char* tex_path )
+bool TileMap::LoadTexture( bool& is_tex_loaded, sf::Texture& texture, const char* tex_path,
+                           const Vec_2i& position, const Vec_2i tile_size )
 {
   if ( ! is_tex_loaded )
   {
-    Vec_2i tile_size = { 32, 32 };
-
     sf::IntRect tex_rect( position, tile_size );
 
     return texture.loadFromFile( tex_path, false, tex_rect );
