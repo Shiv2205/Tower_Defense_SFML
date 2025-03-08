@@ -1,9 +1,11 @@
 #include "main.h"
+#include "critterDriver.h"
 
 int main()
 {
   
   // window.setFramerateLimit(144);
+  critterDemo();
 
   Engine::gameInit();
 
