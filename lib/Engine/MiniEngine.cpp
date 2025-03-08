@@ -5,6 +5,7 @@ bool      reload       = true;
 bool      draw_path    = false;
 bool      is_entry_set = false;
 bool      is_exit_set  = false;
+bool      validate_map = false;
 GameState game_state   = PATH_BUILDER;
 
 Window      Engine::game_window;
@@ -71,7 +72,15 @@ void Engine::keyboardListener( const sf::Event::KeyReleased* released_key )
   sf::Keyboard::Scancode key_code = released_key->scancode;
 
   movementHandler( key_code );
-  int user_choice = 3;
+
+  mapCreatorTck( key_code );
+
+  reload = true;
+}
+
+void Engine::mapCreatorTck( const sf::Keyboard::Scancode& key_code )
+{
+  bool is_valid    = false;
 
   switch ( game_state )
   {
@@ -81,7 +90,12 @@ void Engine::keyboardListener( const sf::Event::KeyReleased* released_key )
 
   case TOWER_OPS:
     // TODO: Show Tower Options menu
-    addTowerHandler( key_code, user_choice );
+    addTowerHandler( key_code );
+    break;
+
+  case VALIDATE:
+    is_valid = my_map.ValidatePath();
+    std::cout << "Map is " << ( is_valid ? "valid" : "not valid" ) << std::endl;
     break;
 
   default:
@@ -97,11 +111,16 @@ void Engine::keyboardListener( const sf::Event::KeyReleased* released_key )
     }
     break;
 
+  case TOWER_OPS:
+    if ( validate_map )
+    {
+      game_state = GameState::VALIDATE;
+    }
+    break;
+
   default:
     break;
   }
-
-  reload = true;
 }
 
 void Engine::buildPathHandler( const sf::Keyboard::Scancode& key_code )
@@ -136,6 +155,37 @@ void Engine::buildPathHandler( const sf::Keyboard::Scancode& key_code )
       draw_path   = false;
       is_exit_set = true;
     }
+  }
+}
+
+void Engine::addTowerHandler( const sf::Keyboard::Scancode& key_code )
+{
+  Position new_pos( selector.getPos() );
+
+  if ( ICE == key_code )
+  {
+    if ( ! my_map.AddTower( new_pos, new IceTower() ) )
+    {
+      LOG( "Invalid position for Tower: " + new_pos.show() );
+    }
+  }
+  else if ( POISON == key_code )
+  {
+    if ( ! my_map.AddTower( new_pos, new PoisonTower() ) )
+    {
+      LOG( "Invalid position for Tower: " + new_pos.show() );
+    }
+  }
+  else if ( ELECTRIC == key_code )
+  {
+    if ( ! my_map.AddTower( new_pos, new ElectricTower() ) )
+    {
+      LOG( "Invalid position for Tower: " + new_pos.show() );
+    }
+  }
+  else if ( VALIDATE_MAP == key_code )
+  {
+    validate_map = true;
   }
 }
 
@@ -180,35 +230,5 @@ void Engine::movementHandler( const sf::Keyboard::Scancode& key_code )
 
   default:
     break;
-  }
-}
-
-void Engine::addTowerHandler( const sf::Keyboard::Scancode& key_code, const int user_choice )
-{
-  Position new_pos( selector.getPos() );
-
-  if ( ( ENTER == key_code ) && ( user_choice < 4 ) )
-  {
-    if ( 1 == user_choice )
-    {
-      if ( ! my_map.AddTower( new_pos, new IceTower() ) )
-      {
-        LOG( "Invalid position for Tower: " + new_pos.show() );
-      }
-    }
-    else if ( 2 == user_choice )
-    {
-      if ( ! my_map.AddTower( new_pos, new PoisonTower() ) )
-      {
-        LOG( "Invalid position for Tower: " + new_pos.show() );
-      }
-    }
-    else if ( 3 == user_choice )
-    {
-      if ( ! my_map.AddTower( new_pos, new ElectricTower() ) )
-      {
-        LOG( "Invalid position for Tower: " + new_pos.show() );
-      }
-    }
   }
 }

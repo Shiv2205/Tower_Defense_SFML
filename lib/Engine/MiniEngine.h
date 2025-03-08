@@ -1,27 +1,31 @@
 #ifndef MINIENGINE_H
 #define MINIENGINE_H
 
-#include "Util/Sfml_Util.h"
 #include "Map/MapObserver.h"
 #include "Map/Selector/Selector.h"
 #include "Map/TileMap.h"
-#include "Window/Window.h"
+#include "Tower/ElectricTower.h"
 #include "Tower/IceTower.h"
 #include "Tower/PoisonTower.h"
-#include "Tower/ElectricTower.h"
+#include "Util/Sfml_Util.h"
+#include "Window/Window.h"
 
-#define UP    sf::Keyboard::Scan::Up
-#define DOWN  sf::Keyboard::Scan::Down
-#define LEFT  sf::Keyboard::Scan::Left
-#define RIGHT sf::Keyboard::Scan::Right
-#define ENTER sf::Keyboard::Scan::Enter
+#define UP           sf::Keyboard::Scan::Up
+#define DOWN         sf::Keyboard::Scan::Down
+#define LEFT         sf::Keyboard::Scan::Left
+#define RIGHT        sf::Keyboard::Scan::Right
+#define ENTER        sf::Keyboard::Scan::Enter
+#define VALIDATE_MAP sf::Keyboard::Scan::V
+#define ICE          sf::Keyboard::Scan::I
+#define POISON       sf::Keyboard::Scan::P
+#define ELECTRIC     sf::Keyboard::Scan::E
 
 // Typedefs
 enum GameState
 {
-  MAP_INIT,
   PATH_BUILDER,
-  TOWER_OPS
+  TOWER_OPS,
+  VALIDATE
 };
 
 // Constants
@@ -33,10 +37,12 @@ extern bool      reload;
 extern bool      draw_path;
 extern bool      is_entry_set;
 extern bool      is_exit_set;
+extern bool      validate_map;
 extern GameState game_state;
 
 namespace Engine
 {
+// Game Window
 extern Window game_window;
 
 // Text
@@ -55,13 +61,14 @@ extern Selector selector;
 // Set Map dimensions
 extern Dimension map_dim;
 
-void gameInit( void );
-void gameLoop( void );
+void        gameInit( void );
+void        gameLoop( void );
 inline void loadFont( sf::Font& font );
 inline void keyboardListener( const sf::Event::KeyReleased* released_key );
+inline void mapCreatorTck( const sf::Keyboard::Scancode& key_code );
 inline void buildPathHandler( const sf::Keyboard::Scancode& key_code );
 inline void movementHandler( const sf::Keyboard::Scancode& key_code );
-inline void addTowerHandler( const sf::Keyboard::Scancode& key_code, const int user_choice );
+inline void addTowerHandler( const sf::Keyboard::Scancode& key_code );
 }; // namespace Engine
 
 #endif // MINIENGINE_H
