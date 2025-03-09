@@ -149,10 +149,7 @@ void Engine::buildPathHandler( const sf::Keyboard::Scancode& key_code )
     }
     else if ( ! is_exit_set )
     {
-      if ( ! my_map.MakePath( new_pos, false, true ) )
-      {
-        LOG( "Invalid position: " + new_pos.show() );
-      }
+      my_map.setExit(new_pos);
       draw_path   = false;
       is_exit_set = true;
     }
