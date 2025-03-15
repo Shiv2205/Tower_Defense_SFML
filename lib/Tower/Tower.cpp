@@ -8,28 +8,7 @@ using namespace std;
 Tower::Tower( string name, int level, int cost, double range, double fireRate, double power )
     : name( name ), level( level ), cost( cost ), refundValue( cost / 2 ), range( range ), power( power ),
       fireRate( fireRate )
-{
-}
-// observer
-
-void Tower::notifyObservers()
-{
-  for ( TowerObserver* observer : observers )
-  {
-    observer->update( *this );
-  }
-}
-
-// Add an observer
-void Tower::addObserver( TowerObserver* observer )
-{
-  observers.push_back( observer );
-}
-
-// Remove an observer
-void Tower::removeObserver( TowerObserver* observer )
-{
-  observers.erase( remove( observers.begin(), observers.end(), observer ), observers.end() );
+{  
 }
 
 // Upgrading Tower
@@ -44,14 +23,14 @@ void Tower::upgrade()
   setFireRate( getFireRate() * 1.1 );
 
   cout << getName() << " upgraded to level: " << getLevel() << "!\n";
-  notifyObservers(); // ✅ Notify observers when upgrade happens
+  notify(); // ✅ Notify observers when upgrade happens
 }
 
 // Selling Tower (Now Notifies Observers)
 void Tower::sell()
 {
   cout << getName() << " sold for " << getRefundValue() << " credits.\n";
-  notifyObservers(); // ✅ Notify observers when tower is sold
+  notify(); // ✅ Notify observers when tower is sold
 }
 void Tower::attack( vector<Critter>& critters )
 {
