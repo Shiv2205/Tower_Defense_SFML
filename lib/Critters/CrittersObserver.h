@@ -1,20 +1,21 @@
 #ifndef CRITTER_OBSERVER_H
 #define CRITTER_OBSERVER_H
 
-#include <iostream>
+#include "Observer/Observer.h"
 #include "Critters.h"
+#include <iostream>
 
-class CritterObserver {
+class CritterObserver: public Observer {
 private:
     Critter* critter;
 
 public:
     CritterObserver(Critter* c) : critter(c) {
-        critter->addObserver(this);  // Attach observer to critter
+        critter->attach(this);  // Attach observer to critter
     }
 
     ~CritterObserver() {
-        critter->removeObserver(this);  // Remove observer on destruction
+        critter->detach(this);  // Remove observer on destruction
     }
 
     void update() {
