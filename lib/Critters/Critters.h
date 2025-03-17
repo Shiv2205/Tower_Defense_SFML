@@ -6,7 +6,6 @@
 #include <iostream>
 
 using namespace std;
-using std::vector;
 
 // Forward declare observer to avoid circular dependency
 class CritterObserver;
