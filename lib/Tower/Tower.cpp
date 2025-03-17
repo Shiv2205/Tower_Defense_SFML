@@ -8,7 +8,7 @@ using namespace std;
 Tower::Tower( string name, int level, int cost, double range, double fireRate, double power )
     : name( name ), level( level ), cost( cost ), refundValue( cost / 2 ), range( range ), power( power ),
       fireRate( fireRate )
-{  
+{
 }
 
 // Upgrading Tower

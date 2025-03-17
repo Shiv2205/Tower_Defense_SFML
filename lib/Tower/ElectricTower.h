@@ -6,14 +6,14 @@
 #include <iostream>
 using namespace std;
 
-class ElectricTower : public Tower {
+class ElectricTower : public Tower
+{
 public:
-    // Constructor
-    ElectricTower();
+  // Constructor
+  ElectricTower();
 
-    // Attack Method
-    void attack() const override;
-
+  // Attack Method
+  void attack() const override;
 };
 
 #endif

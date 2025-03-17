@@ -6,15 +6,16 @@
 #include <iostream>
 using namespace std;
 
-class PoisonTower : public Tower {
+class PoisonTower : public Tower
+{
 public:
-    // Constructor
-    PoisonTower();
+  // Constructor
+  PoisonTower();
 
-    // Attack method
-    void attack() const override;
+  // Attack method
+  void attack() const override;
 
-    void attack(vector<Critter> &critters) ;
+  void attack( vector<Critter>& critters );
 };
 
 #endif
