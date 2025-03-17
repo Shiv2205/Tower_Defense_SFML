@@ -1,9 +1,9 @@
 #ifndef CRITTERS_H
 #define CRITTERS_H
 
+#include "Observer/Observable.h"
 #include "Util/Util.h"
 #include <iostream>
-#include <vector>
 
 using namespace std;
 using std::vector;
@@ -11,7 +11,7 @@ using std::vector;
 // Forward declare observer to avoid circular dependency
 class CritterObserver;
 
-class Critter {
+class Critter: public Observable {
 private:
     int rewards;
     int hitPoints;
@@ -24,8 +24,6 @@ private:
     bool slowed;
     int poisonDuration;
     int slowDuration;
-
-    vector<CritterObserver*> observers; // Stores observers
 
 public:
     Critter(int rewards, int hitPoints, int strength, int speed, int level, Position startPos);
@@ -40,10 +38,6 @@ public:
     int getStrength() const;
     int getRewards() const;
 
-    // Observer methods
-    void addObserver(CritterObserver* observer);
-    void removeObserver(CritterObserver* observer);
-    void notifyObservers();
 };
 
 #endif // CRITTERS_H
