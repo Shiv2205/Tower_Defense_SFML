@@ -27,6 +27,7 @@ void Engine::gameInit( void )
   // Set Map dimensions
   my_map.setDimensions( map_dim );
 
+  //Attach Drawables
   game_window.addContent( &my_map );
   game_window.addContent( &selector );
   game_window.addContent( &my_text );
