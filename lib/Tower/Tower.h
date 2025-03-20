@@ -3,6 +3,7 @@
 
 #include "Util/Util.h"
 #include "Critters/Critters.h"
+#include "Observer/Observable.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -15,7 +16,7 @@ using std::vector;
 class TowerObserver;
 class Critter;
 
-class Tower {
+class Tower: public Observable{
 private:
     string name;
     int level;
@@ -25,27 +26,18 @@ private:
     double power;
     double fireRate;
 
-    vector<TowerObserver*> observers; // ✅ List of observers
-
-protected:
-    void notifyObservers(); // ✅ Notify all observers when values change
-
 public:
     // Constructor
     Tower(string name, int level, int cost, double range, double fireRate, double power);
 
-    // Observer Methods
-    void addObserver(TowerObserver* observer);
-    void removeObserver(TowerObserver* observer);
-
     // Setters (Now notify observers)
-    void setName(const string& n) { name = n; notifyObservers(); }
-    void setLevel(int lvl) { level = lvl; notifyObservers(); }
-    void setCost(int c) { cost = c; notifyObservers(); }
-    void setRefundValue(int rv) { refundValue = rv; notifyObservers(); }
-    void setRange(double r) { range = r; notifyObservers(); }
-    void setPower(double p) { power = p; notifyObservers(); }
-    void setFireRate(double fr) { fireRate = fr; notifyObservers(); }
+    void setName(const string& n) { name = n; notify(); }
+    void setLevel(int lvl) { level = lvl; notify(); }
+    void setCost(int c) { cost = c; notify(); }
+    void setRefundValue(int rv) { refundValue = rv; notify(); }
+    void setRange(double r) { range = r; notify(); }
+    void setPower(double p) { power = p; notify(); }
+    void setFireRate(double fr) { fireRate = fr; notify(); }
 
     // Getters
     string getName() const { return name; }

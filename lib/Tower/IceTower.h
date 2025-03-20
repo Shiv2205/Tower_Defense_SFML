@@ -4,15 +4,16 @@
 
 #include "Tower.h"
 
-class IceTower : public Tower {
+class IceTower : public Tower
+{
 public:
-    // Constructor
-    IceTower();
+  // Constructor
+  IceTower();
 
-    // Attack method
-    void attack() const override;
+  // Attack method
+  void attack() const override;
 
-    void attack(vector<Critter> &critters);
+  void attack( vector<Critter>& critters );
 };
 
 #endif
