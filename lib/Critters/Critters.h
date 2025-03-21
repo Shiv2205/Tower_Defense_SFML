@@ -37,6 +37,7 @@ public:
   Position getPosition() const;
   int      getStrength() const;
   int      getRewards() const;
+  int      getHitPoints()const;
 };
 
 #endif // CRITTERS_H

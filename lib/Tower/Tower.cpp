@@ -23,35 +23,34 @@ void Tower::upgrade()
   setFireRate( getFireRate() * 1.1 );
 
   cout << getName() << " upgraded to level: " << getLevel() << "!\n";
-  notify(); // ✅ Notify observers when upgrade happens
+  notify(); // Notify observers when upgrade happens
 }
 
 // Selling Tower (Now Notifies Observers)
 void Tower::sell()
 {
   cout << getName() << " sold for " << getRefundValue() << " credits.\n";
-  notify(); // ✅ Notify observers when tower is sold
+  notify(); // Notify observers when tower is sold
 }
-void Tower::attack( vector<Critter>& critters )
-{
-  for ( auto& critter : critters )
-  {
-    if ( ! critter.isDead() )
-    {
-      Position critterPos = critter.getPosition();
-      double   dx         = abs( (double)critterPos.row - critterPos.row );
-      double   dy         = abs( (double)critterPos.col - critterPos.col );
+void Tower::attack(vector<Critter*>& critters) {
+    for (auto* critter : critters) {  
+        if (!critter->isDead()) { 
+            Position critterPos = critter->getPosition();  
+            double dx = abs((double)critterPos.row - critterPos.row); 
+            critter->takeDamage(power); 
 
-      if ( ( dx + dy ) <= range )
-      { // Manhattan Distance for range check
-        critter.takeDamage( power );
-        cout << name << " attacks critter at (" << critterPos.row << ", " << critterPos.col << ") for "
-             << power << " damage!" << endl;
-      }
+            cout << name << " attacks critter at (" 
+                 << critterPos.row << ", " 
+                 << critterPos.col << ") for " 
+                 << power << " damage!" << endl;
+        }
     }
-  }
 }
 
+//get tower's position
+Position Tower::getPosition() const {
+    return position;
+}
 // Displaying Tower Info
 void Tower::display() const
 {
