@@ -21,7 +21,10 @@
             "includePath": [
                 "${workspaceFolder}/lib",
                 "${workspaceFolder}/include",
-                "${workspaceFolder}/build/_deps/sfml-src/include"
+                "${workspaceFolder}/build/_deps/sfml-src/include",
+                "${workspaceFolder}/lib/Tower",
+                "${workspaceFolder}/lib/Critters",
+                "${workspaceFolder}/lib/Map"            
             ],
             "defines": [
                 "_DEBUG",

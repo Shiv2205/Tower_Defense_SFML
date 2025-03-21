@@ -73,3 +73,7 @@ int Critter::getRewards() const
 {
   return rewards;
 }
+int Critter::getHitPoints() const
+{
+  return hitPoints;
+}
