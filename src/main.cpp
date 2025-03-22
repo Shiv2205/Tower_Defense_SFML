@@ -11,6 +11,7 @@ int main()
 
   Engine::gameLoop();
 
+  return EXIT_SUCCESS;
 }
 
 
