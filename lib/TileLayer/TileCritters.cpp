@@ -1,7 +1,7 @@
 #include "TileCritters.h"
 #include "Map/Cell/Path.h"
 
-TileCritters::TileCritters( void ) : CritterGroup( 1, { 0, 0 } )
+TileCritters::TileCritters( void ) : CritterGroup( 4, { 0, 0 } )
 {
   this->critter_tiles.setPrimitiveType( sf::PrimitiveType::Triangles );
   this->critter_tiles.resize( ( this->getWaveNumber() * 2 ) * 6 );
