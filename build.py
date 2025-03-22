@@ -16,8 +16,8 @@ def main():
         build = sys.argv[2]
 
     if type == "dev":
-        subprocess.run(["python", "build.py"])
-        subprocess.run(["python", "build.py", "run"])
+        subprocess.run(["python3", "build.py"])
+        subprocess.run(["python3", "build.py", "run"])
 
     elif type == "build":
         if build == "full":
