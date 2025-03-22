@@ -286,5 +286,6 @@ void Map::LinkPath( Path* curr_path, const Position& adj_pos )
   if ( ! adjacent->getNext().linked )
   {
     curr_path->setNext( adj_pos );
+    curr_path->setNextPath( adjacent );
   }
 }

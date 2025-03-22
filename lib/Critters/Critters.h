@@ -9,6 +9,7 @@ using namespace std;
 
 // Forward declare observer to avoid circular dependency
 class CritterObserver;
+class Path;
 
 class Critter : public Observable
 {
@@ -19,6 +20,7 @@ private:
   float    speed;
   int      level;
   Position position;
+  Path*    curr_cell;
 
   bool poisoned;
   bool slowed;
@@ -35,8 +37,13 @@ public:
 
   bool     isDead() const;
   Position getPosition() const;
-  int      getStrength() const;
+  float    getStrength() const;
+  float    getSpeed() const;
   int      getRewards() const;
+  Path*    getCurrCell() const;
+
+  void setPosition( const Position& position );
+  void setCurrCell( Path* curr_cell );
 };
 
 #endif // CRITTERS_H

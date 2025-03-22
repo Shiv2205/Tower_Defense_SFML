@@ -1,4 +1,5 @@
 #include "TileMap.h"
+#include "TileCritters.h"
 #include "TilePath.h"
 #include "TileTowers.h"
 
@@ -42,6 +43,7 @@ bool TileMap::Load( void )
 
         Scenery* scene_cell = static_cast<Scenery*>( target_cell );
         Tower*   cell_tower = scene_cell->getTower();
+
         if ( nullptr != cell_tower )
         {
           std::string tower_name = cell_tower->getName();
@@ -51,21 +53,36 @@ bool TileMap::Load( void )
       else if ( Cell_Type::PATH == target_cell->getCellType() )
       {
         this->path_layer_ptr->RegisterTile( target_vertex_idx, target_pos );
+
+        Path* path_cell = static_cast<Path*>( target_cell );
+
+        if ( path_cell->isEntry() )
+        {
+          this->critter_layer_ptr->setEntryPoint( target_pos );
+          this->critter_layer_ptr->setEntryCell( path_cell );
+        }
       }
     }
   }
 
+  this->critter_layer_ptr->WaveInit();
+
   return true;
 }
 
-const TilePath* TileMap::getPathLayer( void ) const
+TilePath* TileMap::getPathLayer( void )
 {
   return this->path_layer_ptr;
 }
 
-const TileTowers* TileMap::getTowerLayer( void ) const
+TileTowers* TileMap::getTowerLayer( void )
 {
   return this->tower_layer_ptr;
+}
+
+TileCritters* TileMap::getCritterLayer( void )
+{
+  return this->critter_layer_ptr;
 }
 
 void TileMap::setPathLayer( TilePath* path_layer_ptr )
@@ -76,4 +93,9 @@ void TileMap::setPathLayer( TilePath* path_layer_ptr )
 void TileMap::setTowerLayer( TileTowers* tower_layer_ptr )
 {
   this->tower_layer_ptr = tower_layer_ptr;
+}
+
+void TileMap::setCritterLayer( TileCritters* critter_layer_ptr )
+{
+  this->critter_layer_ptr = critter_layer_ptr;
 }

@@ -6,6 +6,7 @@ bool      draw_path    = false;
 bool      is_entry_set = false;
 bool      is_exit_set  = false;
 bool      validate_map = false;
+bool      map_is_valid = false;
 GameState game_state   = PATH_BUILDER;
 
 Window      Engine::game_window;
@@ -25,6 +26,7 @@ void Engine::gameInit( void )
   // Add TileLayers to TileMap
   my_map.setPathLayer( new TilePath() );
   my_map.setTowerLayer( new TileTowers() );
+  my_map.setCritterLayer( new TileCritters() );
 
   // Attach Observers
   my_map.attach( &map_obs );
@@ -36,6 +38,7 @@ void Engine::gameInit( void )
   game_window.addContent( &my_map );
   game_window.addContent( my_map.getPathLayer() );
   game_window.addContent( my_map.getTowerLayer() );
+  game_window.addContent( my_map.getCritterLayer() );
   game_window.addContent( &selector );
   game_window.addContent( &my_text );
 }
@@ -54,6 +57,11 @@ void Engine::gameLoop( void )
       {
         keyboardListener( released_key );
       }
+    }
+
+    if ( map_is_valid )
+    {
+      my_map.getCritterLayer()->WaveMove();
     }
 
     game_window.clear( sf::Color::Black );
@@ -88,7 +96,6 @@ void Engine::keyboardListener( const sf::Event::KeyReleased* released_key )
 
 void Engine::mapCreatorTck( const sf::Keyboard::Scancode& key_code )
 {
-  bool map_is_valid = false;
 
   switch ( game_state )
   {
@@ -104,6 +111,10 @@ void Engine::mapCreatorTck( const sf::Keyboard::Scancode& key_code )
   case VALIDATE:
     map_is_valid = my_map.ValidatePath();
     std::cout << "Map is " << ( map_is_valid ? "valid" : "not valid" ) << std::endl;
+    break;
+
+  case TEST_CRITTERS:
+    // my_map.getCritterLayer()->WaveMove();
     break;
 
   default:
@@ -123,6 +134,13 @@ void Engine::mapCreatorTck( const sf::Keyboard::Scancode& key_code )
     if ( validate_map )
     {
       game_state = GameState::VALIDATE;
+    }
+    break;
+
+  case VALIDATE:
+    if ( map_is_valid )
+    {
+      game_state = GameState::TEST_CRITTERS;
     }
     break;
 

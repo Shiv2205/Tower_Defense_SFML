@@ -55,15 +55,18 @@ public:
    */
   bool Load( void ) override;
 
-  const TilePath* getPathLayer(void) const;
-  const TileTowers* getTowerLayer(void) const;
+  TilePath*     getPathLayer( void ) ;
+  TileTowers*   getTowerLayer( void ) ;
+  TileCritters* getCritterLayer( void ) ;
 
   void setPathLayer( TilePath* path_layer_ptr );
   void setTowerLayer( TileTowers* tower_layer_ptr );
+  void setCritterLayer( TileCritters* critter_layer_ptr );
 
 private:
-  TilePath*   path_layer_ptr;
-  TileTowers* tower_layer_ptr;
+  TilePath*     path_layer_ptr;
+  TileTowers*   tower_layer_ptr;
+  TileCritters* critter_layer_ptr;
 };
 
 #endif // TILEMAP_H

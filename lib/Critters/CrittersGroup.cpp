@@ -2,7 +2,7 @@
 #include "Factory/CritterFactory.h"
 
 // Constructor initializes the wave number and entry point
-CritterGroup::CritterGroup( int waveNum, Position entry ) : waveNumber( waveNum ), entryPoint( entry )
+CritterGroup::CritterGroup( int wave_num, Position entry ) : wave_number( wave_num ), entry_point( entry )
 {
   generateWave();
 }
@@ -14,24 +14,39 @@ const std::vector<Critter*>& CritterGroup::getCritters( void ) const
 
 int CritterGroup::getWaveNumber() const
 {
-  return this->waveNumber;
+  return this->wave_number;
 }
 
 const Position& CritterGroup::getEntryPoint() const
 {
-  return this->entryPoint;
+  return this->entry_point;
+}
+
+Path* CritterGroup::getEntryCell() const
+{
+  return this->entry_cell_ptr;
+}
+
+void CritterGroup::setEntryPoint( const Position& entry_point )
+{
+  this->entry_point = entry_point;
+}
+
+void CritterGroup::setEntryCell( Path* entry_cell_ptr )
+{
+  this->entry_cell_ptr = entry_cell_ptr;
 }
 
 // Generate a new wave of critters
 void CritterGroup::generateWave()
 {
-  critters.clear();                            // Clear previous wave
-  int            numCritters = waveNumber * 2; // Increase number of critters per wave
+  critters.clear();                             // Clear previous wave
+  int            numCritters = wave_number * 2; // Increase number of critters per wave
   CritterFactory crit_factory;
 
   for ( int i = 0; i < numCritters; i++ )
   {
-    critters.push_back( crit_factory.create( this->waveNumber, this->entryPoint ) );
+    critters.push_back( crit_factory.create( this->wave_number, this->entry_point ) );
   }
 }
 

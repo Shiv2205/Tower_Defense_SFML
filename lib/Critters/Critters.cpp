@@ -63,13 +63,33 @@ Position Critter::getPosition() const
 }
 
 // Get critter's strength (how many coins it steals if it reaches exit)
-int Critter::getStrength() const
+float Critter::getStrength() const
 {
   return strength;
+}
+
+float Critter::getSpeed() const
+{
+  return this->speed;
 }
 
 // Get reward amount when critter is killed
 int Critter::getRewards() const
 {
   return rewards;
+}
+
+void Critter::setPosition( const Position& position )
+{
+  this->position = position;
+}
+
+Path* Critter::getCurrCell() const
+{
+  return this->curr_cell;
+}
+
+void Critter::setCurrCell( Path* curr_cell )
+{
+  this->curr_cell = curr_cell;
 }

@@ -41,6 +41,11 @@ Position Path::getNext() const
   return this->next;
 }
 
+Path* Path::getNextPath() const 
+{
+  return this->next_path; 
+}
+
 void Path::setIsEntry( const bool is_entry )
 {
   this->is_entry = is_entry;
@@ -55,4 +60,9 @@ void Path::setNext( const Position& next )
 {
   this->next = next;
   this->next.linked = true;
+}
+
+void Path::setNextPath(Path* next_path) 
+{
+  this->next_path = next_path; 
 }

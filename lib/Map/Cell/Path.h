@@ -66,6 +66,8 @@ public:
    */
   Position getNext() const;
 
+  Path* getNextPath() const;
+
   /**
    * @brief Setter function for is_entry member var
    *
@@ -89,6 +91,8 @@ public:
    */
   void setNext( const Position& next );
 
+  void setNextPath( Path* next_path );
+
 private:
   /**
    * @brief Boolean, stores whether the Path cell is the entry cell
@@ -107,6 +111,8 @@ private:
    *
    */
   Position next;
+
+  Path* next_path;
   /**Critter pointer */
 };
 

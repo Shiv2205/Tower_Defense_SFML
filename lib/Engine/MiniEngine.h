@@ -6,6 +6,7 @@
 #include "TileLayer/TileMap.h"
 #include "TileLayer/TilePath.h"
 #include "TileLayer/TileTowers.h"
+#include "TileLayer/TileCritters.h"
 #include "Tower/ElectricTower.h"
 #include "Tower/IceTower.h"
 #include "Tower/PoisonTower.h"
@@ -27,7 +28,8 @@ enum GameState
 {
   PATH_BUILDER,
   TOWER_OPS,
-  VALIDATE
+  VALIDATE,
+  TEST_CRITTERS
 };
 
 // Constants
