@@ -4,7 +4,7 @@
 using namespace std;
 
 // Constructor
-Critter::Critter( int rewards, int hitPoints, int strength, int speed, int level, Position startPos )
+Critter::Critter( int rewards, int hitPoints, float strength, float speed, int level, Position startPos )
     : rewards( rewards ), hitPoints( hitPoints ), strength( strength ), speed( speed ), level( level ),
       position( startPos ), poisoned( false ), slowed( false ), poisonDuration( 0 ), slowDuration( 0 )
 {

@@ -15,8 +15,8 @@ class Critter : public Observable
 private:
   int      rewards;
   int      hitPoints;
-  int      strength;
-  int      speed;
+  float    strength;
+  float    speed;
   int      level;
   Position position;
 
@@ -26,7 +26,7 @@ private:
   int  slowDuration;
 
 public:
-  Critter( int rewards, int hitPoints, int strength, int speed, int level, Position startPos );
+  Critter( int rewards, int hitPoints, float strength, float speed, int level, Position startPos );
 
   void move();
   void takeDamage( int damage );
