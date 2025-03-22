@@ -88,7 +88,7 @@ void Engine::keyboardListener( const sf::Event::KeyReleased* released_key )
 
 void Engine::mapCreatorTck( const sf::Keyboard::Scancode& key_code )
 {
-  bool is_valid = false;
+  bool map_is_valid = false;
 
   switch ( game_state )
   {
@@ -102,8 +102,8 @@ void Engine::mapCreatorTck( const sf::Keyboard::Scancode& key_code )
     break;
 
   case VALIDATE:
-    is_valid = my_map.ValidatePath();
-    std::cout << "Map is " << ( is_valid ? "valid" : "not valid" ) << std::endl;
+    map_is_valid = my_map.ValidatePath();
+    std::cout << "Map is " << ( map_is_valid ? "valid" : "not valid" ) << std::endl;
     break;
 
   default:

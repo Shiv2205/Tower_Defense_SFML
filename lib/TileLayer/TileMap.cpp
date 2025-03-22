@@ -23,7 +23,7 @@ bool TileMap::Load( void )
 
   bool layers_loaded = TileLayer::Load() && this->path_layer_ptr->Load() && this->tower_layer_ptr->Load();
 
-  if ( ! TileLayer::Load() )
+  if ( ! layers_loaded )
   {
     return false;
   }
