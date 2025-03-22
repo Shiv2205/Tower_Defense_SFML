@@ -18,8 +18,13 @@ Dimension   Engine::map_dim = Dimension( 25, 25 ); // Set Map dimensions
 
 void Engine::gameInit( void )
 {
+  TileLayer::setNumVertices( map_dim.width * map_dim.height * 6 );
   loadFont( font );
   my_text.setPosition( { ( map_dim.width * 32.f ), 0.f } );
+
+  // Add TileLayers to TileMap
+  my_map.setPathLayer( new TilePath() );
+  my_map.setTowerLayer( new TileTowers() );
 
   // Attach Observers
   my_map.attach( &map_obs );
@@ -27,8 +32,10 @@ void Engine::gameInit( void )
   // Set Map dimensions
   my_map.setDimensions( map_dim );
 
-  //Attach Drawables
+  // Attach Drawables
   game_window.addContent( &my_map );
+  game_window.addContent( my_map.getPathLayer() );
+  game_window.addContent( my_map.getTowerLayer() );
   game_window.addContent( &selector );
   game_window.addContent( &my_text );
 }
@@ -81,7 +88,7 @@ void Engine::keyboardListener( const sf::Event::KeyReleased* released_key )
 
 void Engine::mapCreatorTck( const sf::Keyboard::Scancode& key_code )
 {
-  bool is_valid    = false;
+  bool is_valid = false;
 
   switch ( game_state )
   {
@@ -149,7 +156,7 @@ void Engine::buildPathHandler( const sf::Keyboard::Scancode& key_code )
     }
     else if ( ! is_exit_set )
     {
-      my_map.setExit(new_pos);
+      my_map.setExit( new_pos );
       draw_path   = false;
       is_exit_set = true;
     }

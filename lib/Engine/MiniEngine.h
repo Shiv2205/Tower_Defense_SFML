@@ -3,7 +3,9 @@
 
 #include "Map/MapObserver.h"
 #include "Map/Selector/Selector.h"
-#include "Map/TileMap.h"
+#include "TileLayer/TileMap.h"
+#include "TileLayer/TilePath.h"
+#include "TileLayer/TileTowers.h"
 #include "Tower/ElectricTower.h"
 #include "Tower/IceTower.h"
 #include "Tower/PoisonTower.h"
