@@ -67,33 +67,29 @@ void TileCritters::InitCritterWave( sf::Vertex* critter_vts, int critter_idx, Ve
 
 void TileCritters::MoveCritterWave( sf::Vertex* critter_vts, int critter_idx )
 {
-  Vec_2i   tile_size = { 32, 32 };
-  Position entry_pos = this->getEntryPoint();
+  static bool move_init = true;
 
+  Vec_2i   tile_size    = { 32, 32 };
+  Position entry_pos    = this->getEntryPoint();
   Critter* curr_critter = this->getCritters().at( critter_idx );
   Position critter_pos  = curr_critter->getPosition();
+  Vec_2f   increment    = { 0, 0 };
+  float    move_speed   = curr_critter->getSpeed() / 10.f;
 
-  if ( critter_pos == Position( 0, 0 ) )
+  if ( Position( 0, 0 ) == critter_pos )
   {
-    curr_critter->setPosition( entry_pos );
-    curr_critter->setCurrCell( this->getEntryCell() );
-  }
 
-  if ( ( critter_vts[ 0 ].position.x == critter_pos.col * 32 ) ||
-  ( critter_vts[ 0 ].position.y == critter_pos.row * 32 ) )
+    int x = 0, y = 0;
+    this->CalculateOffset( x, y );
+    float direction_x = std::abs( x ) * 1.0f;
+    float direction_y = std::abs( y ) * 1.0f;
+
+    increment = { direction_x, direction_y };
+  }
+  else
   {
-    LOG("Vertex:" << critter_vts[ 0 ].position.x);
-    LOG("Pos:" << critter_pos.col * 32);
-    curr_critter->setPosition( curr_critter->getCurrCell()->getNext() );
-    curr_critter->setCurrCell( curr_critter->getCurrCell()->getNextPath() );
-
-    LOG(curr_critter->getPosition().show());
+    CalculateIncrement( critter_pos, curr_critter->getCurrCell()->getNext(), increment );
   }
-
-  Vec_2f increment  = { 0, 0 };
-  float  move_speed = curr_critter->getSpeed()/10.f;
-
-  CalculateIncrement( critter_vts->position, critter_pos, increment );
 
   critter_vts[ 0 ].position += { ( increment.x * move_speed ), ( increment.y * move_speed ) };
   critter_vts[ 1 ].position += { ( increment.x * move_speed ), ( increment.y * move_speed ) };
@@ -101,6 +97,26 @@ void TileCritters::MoveCritterWave( sf::Vertex* critter_vts, int critter_idx )
   critter_vts[ 3 ].position += { ( increment.x * move_speed ), ( increment.y * move_speed ) };
   critter_vts[ 4 ].position += { ( increment.x * move_speed ), ( increment.y * move_speed ) };
   critter_vts[ 5 ].position += { ( increment.x * move_speed ), ( increment.y * move_speed ) };
+
+  bool is_critter_on_cell = ( (int)critter_vts[ 0 ].position.x == critter_pos.col * 32 ) &&
+                            ( (int)critter_vts[ 0 ].position.y == critter_pos.row * 32 );
+
+  bool is_critter_on_entry = ( (int)critter_vts[ 0 ].position.x == entry_pos.col * 32 ) &&
+                             ( (int)critter_vts[ 0 ].position.y == entry_pos.row * 32 );
+
+  if ( is_critter_on_entry )
+  {
+    curr_critter->setPosition( entry_pos );
+    curr_critter->setCurrCell( this->getEntryCell() );
+  }
+  else if ( is_critter_on_cell )
+  {
+    curr_critter->setPosition( curr_critter->getCurrCell()->getNext() );
+    curr_critter->setCurrCell( curr_critter->getCurrCell()->getNextPath() );
+
+    LOG( "Cuurent: " << curr_critter->getPosition().show() );
+    LOG( "Next Pos: " << curr_critter->getCurrCell()->getNext().show() );
+  }
 }
 
 TileCritters::~TileCritters( void )
@@ -147,22 +163,22 @@ void TileCritters::CalculateOffset( int& offset_x, int& offset_y )
   }
 }
 
-void TileCritters::CalculateIncrement( const Vec_2f& vtx_pos, const Position& curr_pos, Vec_2f& increment )
+void TileCritters::CalculateIncrement( const Position& curr_pos, const Position& next_pos, Vec_2f& increment )
 {
-  if ( vtx_pos.x > ( curr_pos.col * 32 ) )
-  {
-    increment = { -1, 0 };
-  }
-  else if ( vtx_pos.x < ( curr_pos.col * 32 ) )
+  if ( next_pos.col > curr_pos.col )
   {
     increment = { 1, 0 };
   }
-  else if ( vtx_pos.y > ( curr_pos.row * 32 ) )
+  else if ( next_pos.col < curr_pos.col )
   {
-    increment = { 0, -1 };
+    increment = { -1, 0 };
   }
-  else if ( vtx_pos.y < ( curr_pos.row * 32 ) )
+  else if ( next_pos.row > curr_pos.row )
   {
     increment = { 0, 1 };
+  }
+  else if ( next_pos.row < curr_pos.row )
+  {
+    increment = { 0, -1 };
   }
 }

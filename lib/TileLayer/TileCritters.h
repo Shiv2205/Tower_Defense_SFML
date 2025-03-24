@@ -3,6 +3,7 @@
 
 #include "Critters/CrittersGroup.h"
 #include "Util/Sfml_Util.h"
+#include <cmath>
 
 class TileCritters : public CritterGroup, public sf::Drawable, public sf::Transformable
 {
@@ -20,7 +21,7 @@ public:
 private:
   void draw( sf::RenderTarget& target, sf::RenderStates states ) const override;
   void CalculateOffset( int& offset_x, int& offset_y );
-  void CalculateIncrement( const Vec_2f& vtx_pos, const Position& curr_pos, Vec_2f& increment );
+  void CalculateIncrement( const Position& curr_pos, const Position& next_pos, Vec_2f& increment );
 
   sf::VertexArray critter_tiles;
   sf::Texture     layer_texture;
