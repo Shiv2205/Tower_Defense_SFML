@@ -12,19 +12,19 @@ public:
 
   virtual ~TileLayer( void );
 
-  sf::Vertex*        getLayerVertex( const u_32 index );
-  const sf::Texture& getLayerTexture( void ) const;
-  bool               isLayerTexLoaded( void ) const;
-  const std::string& getLayerTexPath( void ) const;
-  static u_32        getNumVertices( void );
+  sf::Vertex*        getLayerVertex( const u_32 index ) { return &this->layer_vertices[ index ]; }
+  const sf::Texture& getLayerTexture( void ) const { return this->layer_texture; }
+  bool               isLayerTexLoaded( void ) const { return this->layer_tex_loaded; }
+  const std::string& getLayerTexPath( void ) const { return this->layer_tex_path; }
+  static u_32        getNumVertices( void ) { return TileLayer::num_vertices; }
 
-  void        setLayerVertices( const sf::VertexArray& layer_vertices );
-  void        setLayerTexture( const sf::Texture& layer_texture );
-  void        setLayerTexPath( const std::string& layer_tex_path );
-  static void setNumVertices( const u_32& num_vertices );
+  void        setLayerVertices( const sf::VertexArray& layer_vertices ) { this->layer_vertices = layer_vertices; }
+  void        setLayerTexture( const sf::Texture& layer_texture ) { this->layer_texture = layer_texture; }
+  void        setLayerTexPath( const std::string& layer_tex_path ) { this->layer_tex_path = layer_tex_path; }
+  static void setNumVertices( const u_32& num_vertices ) { TileLayer::num_vertices = num_vertices; }
 
   virtual bool Load( void );
-  virtual void RegisterTile(const u_32& vertex_idx, const Position& target_tile, const std::string& tile_type="");
+  virtual void RegisterTile( const u_32& vertex_idx, const Position& target_tile, const std::string& tile_type = "" );
 
 private:
   void draw( sf::RenderTarget& target, sf::RenderStates states ) const override;

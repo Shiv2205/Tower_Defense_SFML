@@ -35,15 +35,62 @@ public:
   void applyPoison( int duration );
   void applySlow( int duration );
 
-  bool     isDead() const;
-  Position getPosition() const;
-  float    getStrength() const;
-  float    getSpeed() const;
-  int      getRewards() const;
-  Path*    getCurrCell() const;
+  /**
+   * @brief Check if the Critter is dead
+   *
+   * @return true
+   * @return false
+   */
+  bool isDead() const { return this->hitPoints <= 0; }
 
-  void setPosition( const Position& position );
-  void setCurrCell( Path* curr_cell );
+  /**
+   * @brief Get the Position object
+   *
+   * @return Position
+   */
+  Position getPosition() const { return this->position; }
+
+  /**
+   * @brief Get the Strength object
+   *
+   * @return float
+   */
+  float getStrength() const { return this->strength; }
+
+  /**
+   * @brief Get the Speed object
+   *
+   * @return float
+   */
+  float getSpeed() const { return this->speed; }
+
+  /**
+   * @brief Get the Rewards object
+   *
+   * @return int
+   */
+  int getRewards() const { return this->rewards; }
+
+  /**
+   * @brief Get the Curr Cell object
+   *
+   * @return Path*
+   */
+  Path* getCurrCell() const { return this->curr_cell; }
+
+  /**
+   * @brief Set the Position object
+   * 
+   * @param position 
+   */
+  void setPosition( const Position& position ) { this->position = position; }
+  
+  /**
+   * @brief Set the Curr Cell object
+   * 
+   * @param curr_cell 
+   */
+  void setCurrCell( Path* curr_cell ) { this->curr_cell = curr_cell; }
 };
 
 #endif // CRITTERS_H

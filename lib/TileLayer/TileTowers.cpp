@@ -1,11 +1,8 @@
 #include "TileTowers.h"
 
-TileTowers::TileTowers( void ) : TileLayer( TOWER_TEXTURE, TOWER_TEX_POS, TOWER_TEX_SIZE )
-{
-}
+TileTowers::TileTowers( void ) : TileLayer( TOWER_TEXTURE, TOWER_TEX_POS, TOWER_TEX_SIZE ) {}
 
-void TileTowers::RegisterTile( const u_32& vertex_idx, const Position& target_tile,
-                                const std::string& tile_type )
+void TileTowers::RegisterTile( const u_32& vertex_idx, const Position& target_tile, const std::string& tile_type )
 {
   // Add Tower position to list
   this->tower_pos_list.push_back( target_tile );
@@ -28,6 +25,4 @@ void TileTowers::RegisterTile( const u_32& vertex_idx, const Position& target_ti
   }
 }
 
-TileTowers::~TileTowers( void )
-{
-}
+TileTowers::~TileTowers( void ) {}

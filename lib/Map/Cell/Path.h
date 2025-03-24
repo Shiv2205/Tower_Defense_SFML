@@ -48,7 +48,7 @@ public:
    * @return `true:` If the current Path cell is the entry point
    * @return `false:` If the current Path cell is not the entry point
    */
-  bool isEntry() const;
+  bool isEntry() const { return this->is_entry; }
 
   /**
    * @brief Getter function for is_exit member var
@@ -56,7 +56,7 @@ public:
    * @return `true:` If the current Path cell is the exit point
    * @return `false:` If the current Path cell is not the exit point
    */
-  bool isExit() const;
+  bool isExit() const { return this->is_exit; }
 
   /**
    * @brief Get the position of the next Cell in the Path
@@ -64,9 +64,14 @@ public:
    * @return Position Struct containing row and col values of next
    * Cell in Path
    */
-  Position getNext() const;
+  Position getNext() const { return this->next; }
 
-  Path* getNextPath() const;
+  /**
+   * @brief Get the Next Path object
+   * 
+   * @return Path* Pointer to next Path cell
+   */
+  Path* getNextPath() const { return this->next_path; }
 
   /**
    * @brief Setter function for is_entry member var
@@ -74,7 +79,7 @@ public:
    * @param is_entry Boolean value indicating if current cell is entry
    * point
    */
-  void setIsEntry( const bool is_entry );
+  void setIsEntry( const bool is_entry ) { this->is_entry = is_entry; }
 
   /**
    * @brief Setter function for is_exit member var
@@ -82,7 +87,7 @@ public:
    * @param is_exit Boolean value indicating if current cell is exit
    * point
    */
-  void setIsExit( const bool is_exit );
+  void setIsExit( const bool is_exit ) { this->is_exit = is_exit; }
 
   /**
    * @brief Set the position of the next Cell in Path
@@ -91,7 +96,12 @@ public:
    */
   void setNext( const Position& next );
 
-  void setNextPath( Path* next_path );
+  /**
+   * @brief Set the Next Path object
+   * 
+   * @param next_path Pointer to next Path cell
+   */
+  void setNextPath( Path* next_path ) { this->next_path = next_path; }
 
 private:
   /**
@@ -112,8 +122,11 @@ private:
    */
   Position next;
 
+  /**
+   * @brief Pointer to next Path cell
+   * 
+   */
   Path* next_path;
-  /**Critter pointer */
 };
 
 #endif // PATH_H

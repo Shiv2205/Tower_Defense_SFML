@@ -11,9 +11,9 @@
 #ifndef MAP_H
 #define MAP_H
 
-#include "Observer/Observable.h"
 #include "Cell/Path.h"
 #include "Cell/Scenery.h"
+#include "Observer/Observable.h"
 #include "Util/Util.h"
 #include <iostream>
 #include <sstream>
@@ -28,20 +28,16 @@ struct Dimension
   u_32 width;
   u_32 height;
 
-  Dimension( void ) : width( 5 ), height( 5 )
-  {
-  }
+  Dimension( void ) : width( 5 ), height( 5 ) {}
 
-  Dimension( u_32 width, u_32 height ) : width( width ), height( height )
-  {
-  }
+  Dimension( u_32 width, u_32 height ) : width( width ), height( height ) {}
 };
 
 /**
  * @brief Class to store and handle the cell grid that make up the Map
  *
  */
-class Map: public Observable
+class Map : public Observable
 {
 public:
   /**
@@ -69,7 +65,7 @@ public:
    * @return Dimension A `struct` containing the width and height of
    * the Map
    */
-  Dimension getDimensions( void ) const;
+  Dimension getDimensions( void ) const { return this->dimensions; }
 
   /**
    * @brief Get the entry member var
@@ -77,7 +73,7 @@ public:
    * @return Position A `struct` conataining the row and col of the
    * Entry Cell
    */
-  Position getEntry( void ) const;
+  Position getEntry( void ) const { return this->entry; }
 
   /**
    * @brief Get the exit member var
@@ -85,7 +81,7 @@ public:
    * @return Position A `struct` conataining the row and col of the
    * Exit Cell
    */
-  Position getExit( void ) const;
+  Position getExit( void ) const { return this->exit; }
 
   /**
    * @brief Set the dimensions member var
@@ -115,7 +111,7 @@ public:
    * @brief Display the current map
    *
    */
-  void Display( void );
+  void Display( void ) { LOG( *this ); }
 
   /**
    * @brief Change a Scenery cell to a Path cell

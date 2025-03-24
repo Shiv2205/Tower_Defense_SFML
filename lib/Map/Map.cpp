@@ -41,21 +41,6 @@ Map::~Map( void )
   this->grid = nullptr; // Set to nullptr to prevent dangling ref
 }
 
-Dimension Map::getDimensions() const
-{
-  return this->dimensions;
-}
-
-Position Map::getEntry() const
-{
-  return this->entry;
-}
-
-Position Map::getExit() const
-{
-  return this->exit;
-}
-
 void Map::setDimensions( const Dimension& dimensions )
 {
   this->dimensions = dimensions;
@@ -77,11 +62,6 @@ void Map::setExit( const Position& exit )
   this->exit = exit;
 
   this->notify();
-}
-
-void Map::Display( void )
-{
-  LOG( *this );
 }
 
 bool Map::MakePath( const Position& pos, bool is_entry, bool is_exit )

@@ -3,19 +3,15 @@
 #include "TilePath.h"
 #include "TileTowers.h"
 
-TileMap::TileMap( void ) : Map(), TileLayer( SCENERY_TEXTURE, SCENE_TEX_POS, SCENE_TEX_SIZE )
-{
-}
+TileMap::TileMap( void ) : Map(), TileLayer( SCENERY_TEXTURE, SCENE_TEX_POS, SCENE_TEX_SIZE ) {}
 
-TileMap::TileMap( const Dimension& dimensions )
-    : Map( dimensions ), TileLayer( SCENERY_TEXTURE, SCENE_TEX_POS, SCENE_TEX_SIZE )
-{
-}
+TileMap::TileMap( const Dimension& dimensions ) : Map( dimensions ), TileLayer( SCENERY_TEXTURE, SCENE_TEX_POS, SCENE_TEX_SIZE ) {}
 
 TileMap::~TileMap( void )
 {
   delete this->path_layer_ptr;
   delete this->tower_layer_ptr;
+  delete this->critter_layer_ptr;
 }
 
 bool TileMap::Load( void )
@@ -68,34 +64,4 @@ bool TileMap::Load( void )
   this->critter_layer_ptr->WaveInit();
 
   return true;
-}
-
-TilePath* TileMap::getPathLayer( void )
-{
-  return this->path_layer_ptr;
-}
-
-TileTowers* TileMap::getTowerLayer( void )
-{
-  return this->tower_layer_ptr;
-}
-
-TileCritters* TileMap::getCritterLayer( void )
-{
-  return this->critter_layer_ptr;
-}
-
-void TileMap::setPathLayer( TilePath* path_layer_ptr )
-{
-  this->path_layer_ptr = path_layer_ptr;
-}
-
-void TileMap::setTowerLayer( TileTowers* tower_layer_ptr )
-{
-  this->tower_layer_ptr = tower_layer_ptr;
-}
-
-void TileMap::setCritterLayer( TileCritters* critter_layer_ptr )
-{
-  this->critter_layer_ptr = critter_layer_ptr;
 }

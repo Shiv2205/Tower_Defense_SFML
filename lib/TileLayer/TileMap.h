@@ -55,13 +55,13 @@ public:
    */
   bool Load( void ) override;
 
-  TilePath*     getPathLayer( void ) ;
-  TileTowers*   getTowerLayer( void ) ;
-  TileCritters* getCritterLayer( void ) ;
+  TilePath*     getPathLayer( void ) { return this->path_layer_ptr; }
+  TileTowers*   getTowerLayer( void ) { return this->tower_layer_ptr; }
+  TileCritters* getCritterLayer( void ) { return this->critter_layer_ptr; }
 
-  void setPathLayer( TilePath* path_layer_ptr );
-  void setTowerLayer( TileTowers* tower_layer_ptr );
-  void setCritterLayer( TileCritters* critter_layer_ptr );
+  void setPathLayer( TilePath* path_layer_ptr ) { this->path_layer_ptr = path_layer_ptr; }
+  void setTowerLayer( TileTowers* tower_layer_ptr ) { this->tower_layer_ptr = tower_layer_ptr; }
+  void setCritterLayer( TileCritters* critter_layer_ptr ) { this->critter_layer_ptr = critter_layer_ptr; }
 
 private:
   TilePath*     path_layer_ptr;

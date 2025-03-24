@@ -17,8 +17,7 @@ public:
 
   ~TileTowers( void );
 
-  void RegisterTile( const u_32& vertex_idx, const Position& target_tile,
-                     const std::string& tile_type="" ) override;
+  void RegisterTile( const u_32& vertex_idx, const Position& target_tile, const std::string& tile_type = "" ) override;
 
 private:
   std::vector<Position> tower_pos_list;
