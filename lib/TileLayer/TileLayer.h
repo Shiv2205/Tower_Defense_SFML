@@ -16,12 +16,16 @@ public:
   const sf::Texture& getLayerTexture( void ) const { return this->layer_texture; }
   bool               isLayerTexLoaded( void ) const { return this->layer_tex_loaded; }
   const std::string& getLayerTexPath( void ) const { return this->layer_tex_path; }
-  static u_32        getNumVertices( void ) { return TileLayer::num_vertices; }
+  const Vec_2i&      getTileSize( void ) const { return this->tile_size; }
+  const Vec_2i&      getTilePos( void ) const { return this->tile_pos; }
+  static Vec_2u      getBoundaries( void ) { return TileLayer::boundaries; }
 
   void        setLayerVertices( const sf::VertexArray& layer_vertices ) { this->layer_vertices = layer_vertices; }
   void        setLayerTexture( const sf::Texture& layer_texture ) { this->layer_texture = layer_texture; }
   void        setLayerTexPath( const std::string& layer_tex_path ) { this->layer_tex_path = layer_tex_path; }
-  static void setNumVertices( const u_32& num_vertices ) { TileLayer::num_vertices = num_vertices; }
+  void        setTileSize( const Vec_2i& tile_size ) { this->tile_size = tile_size; }
+  void        setTilePos( const Vec_2i& tile_pos ) { this->tile_pos = tile_pos; }
+  static void setBoundaries( const Vec_2u& boundaries ) { TileLayer::boundaries = boundaries; }
 
   virtual bool Load( void );
   virtual void RegisterTile( const u_32& vertex_idx, const Position& target_tile, const std::string& tile_type = "" );
@@ -37,7 +41,7 @@ private:
   Vec_2i          tile_pos;
   Vec_2i          tile_size;
 
-  static u_32 num_vertices;
+  static Vec_2u boundaries;
 };
 
 #endif // TILELAYER_H

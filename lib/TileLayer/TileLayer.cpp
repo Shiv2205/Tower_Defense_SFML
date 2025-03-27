@@ -1,6 +1,6 @@
 #include "TileLayer.h"
 
-u_32 TileLayer::num_vertices = 0;
+Vec_2u TileLayer::boundaries = {0, 0};
 
 TileLayer::TileLayer( void ) {}
 
@@ -32,8 +32,10 @@ bool TileLayer::Load( void )
     return false;
   }
 
+  Vec_2u bounds = TileLayer::boundaries;
+
   this->layer_vertices.setPrimitiveType( sf::PrimitiveType::Triangles );
-  this->layer_vertices.resize( TileLayer::num_vertices );
+  this->layer_vertices.resize( bounds.x * bounds.y * 6 );
 
   return true;
 }
