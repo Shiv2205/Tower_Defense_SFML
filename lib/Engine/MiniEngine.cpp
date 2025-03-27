@@ -19,14 +19,16 @@ Dimension   Engine::map_dim = Dimension( 25, 25 ); // Set Map dimensions
 
 void Engine::gameInit( void )
 {
-  TileLayer::setNumVertices( map_dim.width * map_dim.height * 6 );
+  TileLayer::setBoundaries( { map_dim.width, map_dim.height } ); //? Set the boundaries for all layers which completely overlap Map
+  TileLayerFactory layer_factory;
+
   loadFont( font );
   my_text.setPosition( { ( map_dim.width * 32.f ), 0.f } );
 
   // Add TileLayers to TileMap
-  my_map.setPathLayer( new TilePath() );
-  my_map.setTowerLayer( new TileTowers() );
-  my_map.setCritterLayer( new TileCritters() );
+  // my_map.setPathLayer( layer_factory.create(TileType::PATH) );
+  // my_map.setTowerLayer( layer_factory.create(TileType::TOWERS) );
+  // my_map.setCritterLayer( new TileCritters() );
 
   // Attach Observers
   my_map.attach( &map_obs );

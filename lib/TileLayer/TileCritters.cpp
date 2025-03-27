@@ -1,6 +1,7 @@
 #include "TileCritters.h"
 #include "Map/Cell/Path.h"
 
+                                    // ! REPLACE WITH this->getWaveNumber()
 TileCritters::TileCritters( void ) : CritterGroup( 4, { 0, 0 } ), TileLayer( getCritterTexPath(), CRITTER_TEX_POS, CRITTER_TEX_SIZE )
 {
 }
