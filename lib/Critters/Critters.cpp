@@ -8,6 +8,7 @@ Critter::Critter( int rewards, int hitPoints, float strength, float speed, int l
     : rewards( rewards ), hitPoints( hitPoints ), strength( strength ), speed( speed ), level( level ), position( startPos ),
       poisoned( false ), slowed( false ), poisonDuration( 0 ), slowDuration( 0 )
 {
+  this->curr_cell = nullptr;
   notify(); // Notify observers
 }
 
