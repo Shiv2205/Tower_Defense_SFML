@@ -34,26 +34,25 @@ bool TileMap::Load( void )
       u_32     target_vertex_idx = ( row + ( col * map.height ) ) * 6;
 
       if ( Cell_Type::SCENERY == target_cell->getCellType() )
-      {
+      { //* SCENERY CELLS
         this->RegisterTile( target_vertex_idx, target_pos );
 
         Scenery* scene_cell = static_cast<Scenery*>( target_cell );
         Tower*   cell_tower = scene_cell->getTower();
 
         if ( nullptr != cell_tower )
-        {
-          std::string tower_name = cell_tower->getName();
-          this->tower_layer_ptr->RegisterTile( target_vertex_idx, target_pos, tower_name );
+        { //* TOWERS
+          this->tower_layer_ptr->RegisterTile( target_vertex_idx, target_pos, cell_tower->getName() );
         }
       }
       else if ( Cell_Type::PATH == target_cell->getCellType() )
-      {
+      { //* PATH CELLS
         this->path_layer_ptr->RegisterTile( target_vertex_idx, target_pos );
 
         Path* path_cell = static_cast<Path*>( target_cell );
 
         if ( path_cell->isEntry() )
-        {
+        { //* CRITTERS
           this->critter_layer_ptr->setEntryPoint( target_pos );
           this->critter_layer_ptr->setEntryCell( path_cell );
         }

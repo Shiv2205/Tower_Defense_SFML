@@ -36,9 +36,22 @@ using Vec_2u = sf::Vector2u;
  * @param cell_vertices
  * @param cell_pos
  */
-void InitVertices( sf::Vertex* cell_vts, const Position& cell_pos, Vec_2u coord = { 0, 0 } );
+void InitVertices( sf::Vertex* cell_vts, const Position& cell_pos, Vec_2u coord = { 0, 0 }, Vec_2i tile_size = { 32, 32 } );
 
-void loadFont( sf::Font& font, const std::string& font_path );
-void loadTexture( sf::Texture& texture, const std::string& texture_path );
+static inline void loadFont( sf::Font& font, const std::string& font_path )
+{
+  if ( ! font.openFromFile( font_path ) )
+  {
+    LOG( "Error loading font" );
+  }
+}
+
+static inline void loadTexture( sf::Texture& texture, const std::string& texture_path )
+{
+  if ( ! texture.loadFromFile( texture_path ) )
+  {
+    LOG( "Error loading texture" );
+  }
+}
 
 #endif // SFML_UTIL_H
