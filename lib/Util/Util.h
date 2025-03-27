@@ -53,4 +53,14 @@ struct Position
   friend bool operator!=( const Position& pos_1, const Position& pos_2 );
 };
 
+//? TileLayer Types
+enum class TileType
+{
+  LAYER,
+  MAP,
+  PATH,
+  TOWERS,
+  CRITTERS
+};
+
 #endif // UTIL_H
