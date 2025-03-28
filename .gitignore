@@ -1,9 +1,4 @@
-build
-build/_deps
-_deps
+thirdparty/SFML/
+build/
+CMakeFiles/
 toolchain.cmake
-
-out
-.cache
-.idea
-.vs
