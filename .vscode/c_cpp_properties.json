@@ -21,7 +21,8 @@
             "includePath": [
                 "${workspaceFolder}/lib",
                 "${workspaceFolder}/include",
-                "${workspaceFolder}/build/_deps/sfml-src/include"
+                "/usr/local/include"
+                // "${workspaceFolder}/build/_deps/sfml-src/include"
             ],
             "defines": [
                 "_DEBUG",

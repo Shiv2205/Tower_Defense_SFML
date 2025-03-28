@@ -88,7 +88,9 @@
     "string_view": "cpp",
     "numbers": "cpp",
     "span": "cpp",
-    "cinttypes": "cpp"
+    "cinttypes": "cpp",
+    "condition_variable": "cpp",
+    "semaphore": "cpp"
   },
   "C_Cpp.default.compilerPath": "c:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.43.34808\\bin\\Hostx64\\x64\\cl.exe"
 }
