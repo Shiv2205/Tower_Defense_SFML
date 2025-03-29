@@ -4,7 +4,7 @@
 #include <vector>
 #include "Tower.h"
 #include "../Critters/Critters.h"
-#include "Map.h"
+#include "Map/Map.h"
 
 class TargetingStrategy {
 public:

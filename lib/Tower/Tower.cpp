@@ -47,10 +47,6 @@ void Tower::attack(vector<Critter*>& critters) {
     }
 }
 
-//get tower's position
-Position Tower::getPosition() const {
-    return position;
-}
 // Displaying Tower Info
 void Tower::display() const
 {
