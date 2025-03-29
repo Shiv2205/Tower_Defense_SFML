@@ -34,7 +34,7 @@ public:
   void takeDamage( int damage );
   void applyPoison( int duration );
   void applySlow( int duration );
-
+  
   /**
    * @brief Check if the Critter is dead
    *
@@ -70,6 +70,8 @@ public:
    * @return int
    */
   int getRewards() const { return this->rewards; }
+  
+  int getHitPoints() const { return this->hitPoints; }
 
   /**
    * @brief Get the Curr Cell object

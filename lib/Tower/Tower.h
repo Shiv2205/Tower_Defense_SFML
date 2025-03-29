@@ -25,6 +25,7 @@ private:
     double range;
     double power;
     double fireRate;
+    Position position;
 
 public:
     // Constructor
@@ -47,13 +48,15 @@ public:
     double getRange() const { return range; }
     double getPower() const { return power; }
     double getFireRate() const { return fireRate; }
+    Position getPosition() const { return position; }  //  Getter for position
 
     // Methods
     virtual void attack() const = 0;
     void upgrade();
     void sell();
     void display() const;
-    virtual void attack(vector<Critter> &critters);
+   virtual void attack(vector<Critter*>& critters);
+
 
     // Destructor
     virtual ~Tower() {}
