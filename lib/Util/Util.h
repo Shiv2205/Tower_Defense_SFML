@@ -33,15 +33,15 @@ typedef unsigned int u_32;
  */
 struct Position
 {
-  u_32 row;
-  u_32 col;
+  int row;
+  int col;
   bool linked;
 
   Position( void ) : row( 0 ), col( 0 ), linked( false )
   {
   }
 
-  Position( u_32 row_val, u_32 col_val )
+  Position( int row_val, int col_val )
     : row( row_val ), col( col_val ), linked( false )
   {
   }
@@ -51,6 +51,16 @@ struct Position
   friend bool operator==( const Position& pos_1, const Position& pos_2 );
 
   friend bool operator!=( const Position& pos_1, const Position& pos_2 );
+};
+
+//? TileLayer Types
+enum class TileType
+{
+  LAYER,
+  MAP,
+  PATH,
+  TOWERS,
+  CRITTERS
 };
 
 #endif // UTIL_H

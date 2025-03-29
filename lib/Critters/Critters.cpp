@@ -4,18 +4,18 @@
 using namespace std;
 
 // Constructor
-Critter::Critter( int rewards, int hitPoints, int strength, int speed, int level, Position startPos )
-    : rewards( rewards ), hitPoints( hitPoints ), strength( strength ), speed( speed ), level( level ),
-      position( startPos ), poisoned( false ), slowed( false ), poisonDuration( 0 ), slowDuration( 0 )
+Critter::Critter( int rewards, int hitPoints, float strength, float speed, int level, Position startPos )
+    : rewards( rewards ), hitPoints( hitPoints ), strength( strength ), speed( speed ), level( level ), position( startPos ),
+      poisoned( false ), slowed( false ), poisonDuration( 0 ), slowDuration( 0 )
 {
-  notify(); // Notify observers when a new critter is created
+  this->curr_cell = nullptr;
+  notify(); // Notify observers
 }
 
 // Move function (for testing)
 void Critter::move()
 {
-  cout << "Critter moved from (" << position.row << ", " << position.col << ") to next position (stubbed)"
-       << endl;
+  cout << "Critter moved from (" << position.row << ", " << position.col << ") to next position (stubbed)" << endl;
   notify(); // Notify observers
 }
 
@@ -48,32 +48,4 @@ void Critter::applySlow( int duration )
   slowDuration = duration;
   cout << "Critter is slowed for " << duration << " turns!" << endl;
   notify();
-}
-
-// Check if the critter is dead
-bool Critter::isDead() const
-{
-  return hitPoints <= 0;
-}
-
-// Get current position
-Position Critter::getPosition() const
-{
-  return position;
-}
-
-// Get critter's strength (how many coins it steals if it reaches exit)
-int Critter::getStrength() const
-{
-  return strength;
-}
-
-// Get reward amount when critter is killed
-int Critter::getRewards() const
-{
-  return rewards;
-}
-int Critter::getHitPoints() const
-{
-  return hitPoints;
 }

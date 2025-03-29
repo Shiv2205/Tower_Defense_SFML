@@ -89,6 +89,8 @@
     "numbers": "cpp",
     "span": "cpp",
     "cinttypes": "cpp",
+    "condition_variable": "cpp",
+    "semaphore": "cpp"
     "__bit_reference": "cpp",
     "__config": "cpp",
     "__hash_table": "cpp",

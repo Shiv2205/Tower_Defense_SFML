@@ -61,14 +61,14 @@ public:
    *
    * @return Cell_Type
    */
-  Cell_Type getCellType( void ) const;
+  Cell_Type getCellType( void ) const { return this->type; }
 
   /**
    * @brief Get the Graphic member var
    *
    * @return std::string
    */
-  std::string getGraphic( void ) const;
+  std::string getGraphic( void ) const { return this->graphic; }
 
   // Setters
   /**
@@ -76,14 +76,14 @@ public:
    *
    * @param new_type
    */
-  void setCellType( const Cell_Type& new_type );
+  void setCellType( const Cell_Type& new_type ) { this->type = new_type; }
 
   /**
    * @brief Set the Graphic member var
    *
    * @param new_graphic
    */
-  void setGraphic( std::string new_graphic );
+  void setGraphic( std::string new_graphic ) { this->graphic = new_graphic; }
 
   friend std::ostream& operator<<( std::ostream& cout, const Cell& cell_obj );
 

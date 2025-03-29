@@ -1,7 +1,8 @@
 #include "CrittersGroup.h"
+#include "Factory/CritterFactory.h"
 
 // Constructor initializes the wave number and entry point
-CritterGroup::CritterGroup( int waveNum, Position entry ) : waveNumber( waveNum ), entryPoint( entry )
+CritterGroup::CritterGroup( int wave_num, Position entry ) : wave_number( wave_num ), entry_point( entry )
 {
   generateWave();
 }
@@ -9,16 +10,17 @@ CritterGroup::CritterGroup( int waveNum, Position entry ) : waveNumber( waveNum 
 // Generate a new wave of critters
 void CritterGroup::generateWave()
 {
-  critters.clear(); // Clear previous wave
-
-  int numCritters  = waveNumber * 2;          // Increase number of critters per wave
-  int baseHP       = 10 + ( waveNumber * 5 ); // Increase HP per wave
-  int baseSpeed    = 1 + ( waveNumber / 5 );  // Speed increases slowly
-  int baseStrength = 2 + ( waveNumber / 2 );  // Higher waves steal more coins
+  if(critters.size() > 0){
+    this->~CritterGroup();
+    critters.clear();                             // Clear previous wave
+    critters.shrink_to_fit();
+  }
+  int            numCritters = wave_number * 2; // Increase number of critters per wave
+  CritterFactory crit_factory;
 
   for ( int i = 0; i < numCritters; i++ )
   {
-    critters.push_back( Critter( 10, baseHP, baseStrength, baseSpeed, waveNumber, entryPoint ) );
+    critters.push_back( crit_factory.create( this->wave_number, this->entry_point ) );
   }
 }
 
@@ -27,15 +29,25 @@ Critter* CritterGroup::spawnNextCritter()
 {
   if ( ! critters.empty() )
   {
-    Critter* nextCritter = &critters.front(); // Get first critter
-    critters.erase( critters.begin() );       // Remove from list
+    Critter* nextCritter = critters.front(); // Get first critter
+    critters.erase( critters.begin() );      // Remove from list
     return nextCritter;
   }
   return nullptr; // No more critters to spawn
 }
 
-// Check if all critters are gone
-bool CritterGroup::isWaveOver() const
+
+CritterGroup::~CritterGroup()
 {
-  return critters.empty();
+  int num_critters = this->critters.size();
+
+  for ( int i = 0; i < num_critters; i++ )
+  {
+    Critter* critter_ptr = this->critters.at( i );
+
+    if ( nullptr != critter_ptr )
+    {
+      delete critter_ptr;
+    }
+  }
 }

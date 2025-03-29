@@ -33,6 +33,21 @@
       "problemMatcher": "$msCompile"
     },
     {
+      "label": "debug",
+      "type": "shell",
+      "command": "python3",
+      "args": [
+        "build.py",
+        "build",
+        "debug"
+       ],
+      "group": "build",
+      "presentation": {
+        "reveal": "silent"
+      },
+      "problemMatcher": "$msCompile"
+    },
+    {
       "label": "run",
       "type": "shell",
       "command": "python3",

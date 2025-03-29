@@ -6,6 +6,7 @@ bool      draw_path    = false;
 bool      is_entry_set = false;
 bool      is_exit_set  = false;
 bool      validate_map = false;
+bool      map_is_valid = false;
 GameState game_state   = PATH_BUILDER;
 
 Window      Engine::game_window;
@@ -18,8 +19,16 @@ Dimension   Engine::map_dim = Dimension( 25, 25 ); // Set Map dimensions
 
 void Engine::gameInit( void )
 {
+  TileLayer::setBoundaries( { map_dim.width, map_dim.height } ); //? Set the boundaries for all layers which completely overlap Map
+  TileLayerFactory layer_factory;
+
   loadFont( font );
   my_text.setPosition( { ( map_dim.width * 32.f ), 0.f } );
+
+  // Add TileLayers to TileMap
+  my_map.getLayerReg()->addToRegistry( TileType::PATH );
+  my_map.getLayerReg()->addToRegistry( TileType::TOWERS );
+  my_map.getLayerReg()->addToRegistry( TileType::CRITTERS );
 
   // Attach Observers
   my_map.attach( &map_obs );
@@ -27,8 +36,11 @@ void Engine::gameInit( void )
   // Set Map dimensions
   my_map.setDimensions( map_dim );
 
-  //Attach Drawables
+  // Attach Drawables
   game_window.addContent( &my_map );
+  game_window.addContent( my_map.getLayerReg()->getLayerOf<TilePath*>() );
+  game_window.addContent( my_map.getLayerReg()->getLayerOf<TileTowers*>() );
+  game_window.addContent( my_map.getLayerReg()->getLayerOf<TileCritters*>() );
   game_window.addContent( &selector );
   game_window.addContent( &my_text );
 }
@@ -47,6 +59,11 @@ void Engine::gameLoop( void )
       {
         keyboardListener( released_key );
       }
+    }
+
+    if ( game_state == GameState::TEST_CRITTERS )
+    {
+      gameFlowTck();
     }
 
     game_window.clear( sf::Color::Black );
@@ -81,7 +98,6 @@ void Engine::keyboardListener( const sf::Event::KeyReleased* released_key )
 
 void Engine::mapCreatorTck( const sf::Keyboard::Scancode& key_code )
 {
-  bool is_valid    = false;
 
   switch ( game_state )
   {
@@ -95,8 +111,8 @@ void Engine::mapCreatorTck( const sf::Keyboard::Scancode& key_code )
     break;
 
   case VALIDATE:
-    is_valid = my_map.ValidatePath();
-    std::cout << "Map is " << ( is_valid ? "valid" : "not valid" ) << std::endl;
+    map_is_valid = my_map.ValidatePath();
+    std::cout << "Map is " << ( map_is_valid ? "valid" : "not valid" ) << std::endl;
     break;
 
   default:
@@ -116,6 +132,13 @@ void Engine::mapCreatorTck( const sf::Keyboard::Scancode& key_code )
     if ( validate_map )
     {
       game_state = GameState::VALIDATE;
+    }
+    break;
+
+  case VALIDATE:
+    if ( map_is_valid )
+    {
+      game_state = GameState::TEST_CRITTERS;
     }
     break;
 
@@ -149,7 +172,7 @@ void Engine::buildPathHandler( const sf::Keyboard::Scancode& key_code )
     }
     else if ( ! is_exit_set )
     {
-      my_map.setExit(new_pos);
+      my_map.setExit( new_pos );
       draw_path   = false;
       is_exit_set = true;
     }
@@ -226,6 +249,19 @@ void Engine::movementHandler( const sf::Keyboard::Scancode& key_code )
     }
     break;
 
+  default:
+    break;
+  }
+}
+
+void Engine::gameFlowTck( void ) 
+{
+  switch (game_state)
+  {
+    case TEST_CRITTERS:
+    my_map.getLayerReg()->getLayerOf<TileCritters*>()->WaveMove();
+    break;
+  
   default:
     break;
   }
