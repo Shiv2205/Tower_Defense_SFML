@@ -21,9 +21,18 @@ def main():
 
     elif type == "build":
         if build == "full":
-            subprocess.run(["cmake", "-DCMAKE_TOOLCHAIN_FILE=toolchain.cmake", "-S", ".", "-B", "./build"])
+          subprocess.run(["cmake",
+          "-DCMAKE_BUILD_TYPE=Release",
+          "-DCMAKE_TOOLCHAIN_FILE=toolchain.cmake", "-S", ".", "-B", "./build"])
 
-        subprocess.run(["cmake", "--build", "./build"])
+        elif build == "debug":
+          build_type = "Debug"
+          subprocess.run(["cmake", 
+                        "-DCMAKE_BUILD_TYPE=" + build_type,
+                        "-S", ".", 
+                        "-B", "./build"])
+
+        subprocess.run(["cmake", "--build", "./build"])      
 
     elif type == "run":
         subprocess.run(["./build/bin/sfml_game"])
