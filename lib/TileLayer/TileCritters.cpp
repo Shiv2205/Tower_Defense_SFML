@@ -1,23 +1,23 @@
 #include "TileCritters.h"
 #include "Map/Cell/Path.h"
 
-                                    // ! REPLACE WITH this->getWaveNumber()
+// ! REPLACE WITH this->getWaveNumber()
 TileCritters::TileCritters( void ) : CritterGroup( 4, { 0, 0 } ), TileLayer( getCritterTexPath(), CRITTER_TEX_POS, CRITTER_TEX_SIZE )
 {
 }
 
 bool TileCritters::Load( void )
 {
-  bool layer_loaded = TileLayer::Load();
-  
-  if ( ! layer_loaded )
+  this->setLayerTexLoaded( this->LoadTexture() );
+
+  if ( ! this->isLayerTexLoaded() )
   {
     return false;
   }
-  
+
   sf::VertexArray critter_tiles;
   critter_tiles.setPrimitiveType( sf::PrimitiveType::Triangles );
-  critter_tiles.resize( ( this->getWaveNumber() * 2 ) * 6 );
+  critter_tiles.resize( this->getCritters().size() * 6 );
 
   this->setLayerVertices( critter_tiles );
 
@@ -73,21 +73,14 @@ void TileCritters::MoveCritter( sf::Vertex* critter_vts, int critter_idx )
   Position target_pos;
 
   if ( Position( 0, 0 ) == critter_pos )
-  {
+  { // ? If position is default, move Critter towards entry cell
     if ( nullptr == curr_critter->getCurrCell() )
     { // * Dock Critters at lobby Path cell on init
       curr_critter->setCurrCell( &lobby_cell );
       lobby_cell.setNextPath( this->getEntryCell() );
     }
     target_pos = entry_pos;
-  }
-  else
-  {
-    target_pos = curr_critter->getCurrCell()->getNext();
-  }
 
-  if ( Position( 0, 0 ) == critter_pos )
-  { // ? If position is default, move Critter towards entry cell
     int x = 0, y = 0;
     this->CalculateOffset( x, y );
     float direction_x = x * -1.0f;
@@ -97,7 +90,19 @@ void TileCritters::MoveCritter( sf::Vertex* critter_vts, int critter_idx )
   }
   else
   { // ? If not default, calculate direction based on current position
-    CalculateIncrement( critter_pos, target_pos, increment );
+    target_pos = curr_critter->getCurrCell()->getNext();
+
+    if ( Position( 0, 0 ) == target_pos )
+    {//? Make Critters invisible when they reach the Exit Cell
+      for ( int i = 0; i < 6; i++ )
+      {
+        critter_vts[ i ].color.a = 0;
+      }
+    }
+    else
+    {
+      CalculateIncrement( critter_pos, target_pos, increment );
+    }
   }
 
   for ( int i = 0; i < 6; i++ )
@@ -107,8 +112,12 @@ void TileCritters::MoveCritter( sf::Vertex* critter_vts, int critter_idx )
 
   if ( IsCritterOnCell( critter_vts[ 0 ].position, target_pos ) )
   { // ? Is the Critter on the target cell
-    curr_critter->setPosition( target_pos );
-    curr_critter->setCurrCell( curr_critter->getCurrCell()->getNextPath() );
+    Path* next_path = curr_critter->getCurrCell()->getNextPath();
+    if ( next_path )
+    {
+      curr_critter->setPosition( target_pos );
+      curr_critter->setCurrCell( next_path );
+    }
   }
 }
 
@@ -143,7 +152,7 @@ void TileCritters::CalculateOffset( int& offset_x, int& offset_y ) const
     offset_x = -1;
     offset_y = 0;
   }
-  else if ( col == layer_bounds.x )
+  else if ( col == ( layer_bounds.x - 1 ) )
   { // * Right
     offset_x = 1;
     offset_y = 0;
@@ -153,7 +162,7 @@ void TileCritters::CalculateOffset( int& offset_x, int& offset_y ) const
     offset_x = 0;
     offset_y = -1;
   }
-  else if ( row == layer_bounds.y )
+  else if ( row == ( layer_bounds.y - 1 ) )
   { // * Down
     offset_x = 0;
     offset_y = 1;

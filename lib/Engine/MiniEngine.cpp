@@ -26,9 +26,9 @@ void Engine::gameInit( void )
   my_text.setPosition( { ( map_dim.width * 32.f ), 0.f } );
 
   // Add TileLayers to TileMap
-  // my_map.setPathLayer( layer_factory.create(TileType::PATH) );
-  // my_map.setTowerLayer( layer_factory.create(TileType::TOWERS) );
-  // my_map.setCritterLayer( new TileCritters() );
+  my_map.getLayerReg()->addToRegistry( TileType::PATH );
+  my_map.getLayerReg()->addToRegistry( TileType::TOWERS );
+  my_map.getLayerReg()->addToRegistry( TileType::CRITTERS );
 
   // Attach Observers
   my_map.attach( &map_obs );
@@ -38,9 +38,9 @@ void Engine::gameInit( void )
 
   // Attach Drawables
   game_window.addContent( &my_map );
-  game_window.addContent( my_map.getPathLayer() );
-  game_window.addContent( my_map.getTowerLayer() );
-  game_window.addContent( my_map.getCritterLayer() );
+  game_window.addContent( my_map.getLayerReg()->getLayerOf<TilePath*>() );
+  game_window.addContent( my_map.getLayerReg()->getLayerOf<TileTowers*>() );
+  game_window.addContent( my_map.getLayerReg()->getLayerOf<TileCritters*>() );
   game_window.addContent( &selector );
   game_window.addContent( &my_text );
 }
@@ -61,9 +61,9 @@ void Engine::gameLoop( void )
       }
     }
 
-    if ( map_is_valid )
+    if ( game_state == GameState::TEST_CRITTERS )
     {
-      my_map.getCritterLayer()->WaveMove();
+      gameFlowTck();
     }
 
     game_window.clear( sf::Color::Black );
@@ -113,10 +113,6 @@ void Engine::mapCreatorTck( const sf::Keyboard::Scancode& key_code )
   case VALIDATE:
     map_is_valid = my_map.ValidatePath();
     std::cout << "Map is " << ( map_is_valid ? "valid" : "not valid" ) << std::endl;
-    break;
-
-  case TEST_CRITTERS:
-    // my_map.getCritterLayer()->WaveMove();
     break;
 
   default:
@@ -253,6 +249,19 @@ void Engine::movementHandler( const sf::Keyboard::Scancode& key_code )
     }
     break;
 
+  default:
+    break;
+  }
+}
+
+void Engine::gameFlowTck( void ) 
+{
+  switch (game_state)
+  {
+    case TEST_CRITTERS:
+    my_map.getLayerReg()->getLayerOf<TileCritters*>()->WaveMove();
+    break;
+  
   default:
     break;
   }

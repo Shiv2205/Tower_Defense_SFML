@@ -8,4 +8,5 @@ void MapObserver::update( Observable* subject ) const
   {
     LOG( "Failed to load map" );
   }
+
 }

@@ -13,13 +13,13 @@ public:
   // Constructor
   CritterGroup( int wave_num, Position entry );
 
-  const std::vector<Critter*>& getCritters( void ) const;
-  int                          getWaveNumber( void ) const;
-  const Position&              getEntryPoint( void ) const;
-  Path*                        getEntryCell( void ) const;
+  const std::vector<Critter*>& getCritters( void ) const { return this->critters; }
+  int                          getWaveNumber( void ) const { return this->wave_number; }
+  const Position&              getEntryPoint( void ) const { return this->entry_point; }
+  Path*                        getEntryCell( void ) const { return this->entry_cell_ptr; }
 
-  void setEntryPoint( const Position& entry_point );
-  void setEntryCell( Path* entry_cell_ptr );
+  void setEntryPoint( const Position& entry_point ) { this->entry_point = entry_point; }
+  void setEntryCell( Path* entry_cell_ptr ) { this->entry_cell_ptr = entry_cell_ptr; }
 
   // Generate a wave of critters
   void generateWave( void );
@@ -28,7 +28,7 @@ public:
   Critter* spawnNextCritter( void );
 
   // Check if wave is finished
-  bool isWaveOver( void ) const;
+  bool isWaveOver( void ) const { return critters.empty(); }
 
   // Destructor
   virtual ~CritterGroup( void );

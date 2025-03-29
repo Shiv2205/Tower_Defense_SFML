@@ -29,4 +29,6 @@ TileLayer* TileLayerFactory::create( const TileType& request_tile )
     return new TileCritters();
     break;
   }
+
+  return nullptr;
 }

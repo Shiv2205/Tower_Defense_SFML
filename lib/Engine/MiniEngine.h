@@ -1,11 +1,14 @@
 #ifndef MINIENGINE_H
 #define MINIENGINE_H
 
+#include "Factory/TileLayerFactory.h"
 #include "Map/MapObserver.h"
 #include "Map/Selector/Selector.h"
-#include "TileLayer/TileMap.h"
+#include "Registry/TileLayerRegistry.h"
 #include "TileLayer/TileCritters.h"
-#include "Factory/TileLayerFactory.h"
+#include "TileLayer/TileMap.h"
+#include "TileLayer/TilePath.h"
+#include "TileLayer/TileTowers.h"
 #include "Tower/ElectricTower.h"
 #include "Tower/IceTower.h"
 #include "Tower/PoisonTower.h"
@@ -70,8 +73,9 @@ inline void loadFont( sf::Font& font );
 inline void keyboardListener( const sf::Event::KeyReleased* released_key );
 inline void mapCreatorTck( const sf::Keyboard::Scancode& key_code );
 inline void buildPathHandler( const sf::Keyboard::Scancode& key_code );
-inline void movementHandler( const sf::Keyboard::Scancode& key_code );
 inline void addTowerHandler( const sf::Keyboard::Scancode& key_code );
+inline void movementHandler( const sf::Keyboard::Scancode& key_code );
+inline void gameFlowTck( void );
 }; // namespace Engine
 
 #endif // MINIENGINE_H

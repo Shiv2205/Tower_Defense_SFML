@@ -12,6 +12,7 @@
 #define TILEMAP_H
 
 #include "Map/Map.h"
+#include "Registry/TileLayerRegistry.h"
 #include "TileLayer.h"
 #include "Util/Sfml_Util.h"
 #include <string>
@@ -21,9 +22,6 @@
 #define SCENE_TEX_SIZE  Vec_2i( { 32, 32 } )
 
 // Forward declaration
-class TilePath;
-class TileTowers;
-class TileCritters;
 
 class TileMap : public Map, public TileLayer
 {
@@ -47,6 +45,8 @@ public:
    */
   ~TileMap( void );
 
+  TileLayerRegistry* const getLayerReg( void ) const { return (TileLayerRegistry* const)&this->layer_reg; }
+
   /**
    * @brief Load the Tile Map object
    *
@@ -55,18 +55,8 @@ public:
    */
   bool Load( void ) override;
 
-  TilePath*     getPathLayer( void ) { return this->path_layer_ptr; }
-  TileTowers*   getTowerLayer( void ) { return this->tower_layer_ptr; }
-  TileCritters* getCritterLayer( void ) { return this->critter_layer_ptr; }
-
-  void setPathLayer( TilePath* path_layer_ptr ) { this->path_layer_ptr = path_layer_ptr; }
-  void setTowerLayer( TileTowers* tower_layer_ptr ) { this->tower_layer_ptr = tower_layer_ptr; }
-  void setCritterLayer( TileCritters* critter_layer_ptr ) { this->critter_layer_ptr = critter_layer_ptr; }
-
 private:
-  TilePath*     path_layer_ptr;
-  TileTowers*   tower_layer_ptr;
-  TileCritters* critter_layer_ptr;
+  TileLayerRegistry layer_reg;
 };
 
 #endif // TILEMAP_H

@@ -7,40 +7,14 @@ CritterGroup::CritterGroup( int wave_num, Position entry ) : wave_number( wave_n
   generateWave();
 }
 
-const std::vector<Critter*>& CritterGroup::getCritters( void ) const
-{
-  return this->critters;
-}
-
-int CritterGroup::getWaveNumber() const
-{
-  return this->wave_number;
-}
-
-const Position& CritterGroup::getEntryPoint() const
-{
-  return this->entry_point;
-}
-
-Path* CritterGroup::getEntryCell() const
-{
-  return this->entry_cell_ptr;
-}
-
-void CritterGroup::setEntryPoint( const Position& entry_point )
-{
-  this->entry_point = entry_point;
-}
-
-void CritterGroup::setEntryCell( Path* entry_cell_ptr )
-{
-  this->entry_cell_ptr = entry_cell_ptr;
-}
-
 // Generate a new wave of critters
 void CritterGroup::generateWave()
 {
-  critters.clear();                             // Clear previous wave
+  if(critters.size() > 0){
+    this->~CritterGroup();
+    critters.clear();                             // Clear previous wave
+    critters.shrink_to_fit();
+  }
   int            numCritters = wave_number * 2; // Increase number of critters per wave
   CritterFactory crit_factory;
 
@@ -62,11 +36,6 @@ Critter* CritterGroup::spawnNextCritter()
   return nullptr; // No more critters to spawn
 }
 
-// Check if all critters are gone
-bool CritterGroup::isWaveOver() const
-{
-  return critters.empty();
-}
 
 CritterGroup::~CritterGroup()
 {

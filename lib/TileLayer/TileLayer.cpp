@@ -1,6 +1,6 @@
 #include "TileLayer.h"
 
-Vec_2u TileLayer::boundaries = {0, 0};
+Vec_2u TileLayer::boundaries = { 0, 0 };
 
 TileLayer::TileLayer( void ) {}
 
@@ -14,7 +14,7 @@ bool TileLayer::LoadTexture( void )
   if ( ! this->layer_tex_loaded )
   {
     sf::IntRect tex_rect( this->tile_pos, this->tile_size );
-
+    this->layer_texture.setSmooth( true );
     return this->layer_texture.loadFromFile( this->layer_tex_path, false, tex_rect );
   }
   else

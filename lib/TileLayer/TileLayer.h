@@ -20,8 +20,9 @@ public:
   const Vec_2i&      getTilePos( void ) const { return this->tile_pos; }
   static Vec_2u      getBoundaries( void ) { return TileLayer::boundaries; }
 
-  void        setLayerVertices( const sf::VertexArray& layer_vertices ) { this->layer_vertices = layer_vertices; }
+  void        setLayerVertices( sf::VertexArray layer_vertices ) { this->layer_vertices = layer_vertices; }
   void        setLayerTexture( const sf::Texture& layer_texture ) { this->layer_texture = layer_texture; }
+  void        setLayerTexLoaded( bool layer_tex_loaded ) { this->layer_tex_loaded = layer_tex_loaded; }
   void        setLayerTexPath( const std::string& layer_tex_path ) { this->layer_tex_path = layer_tex_path; }
   void        setTileSize( const Vec_2i& tile_size ) { this->tile_size = tile_size; }
   void        setTilePos( const Vec_2i& tile_pos ) { this->tile_pos = tile_pos; }
@@ -29,10 +30,10 @@ public:
 
   virtual bool Load( void );
   virtual void RegisterTile( const u_32& vertex_idx, const Position& target_tile, const std::string& tile_type = "" );
+  bool         LoadTexture( void );
 
 private:
   void draw( sf::RenderTarget& target, sf::RenderStates states ) const override;
-  bool LoadTexture( void );
 
   sf::VertexArray layer_vertices;
   sf::Texture     layer_texture;
