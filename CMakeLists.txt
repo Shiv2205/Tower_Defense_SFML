@@ -21,7 +21,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     add_compile_options(-g -Wall -Wextra -pedantic -O0)
 else()
-    add_compile_options(-O2 -DNDEBUG)  # Safer than -O3
+    # add_compile_options(-O2 -DNDEBUG)  # Safer than -O3
+    add_compile_options(-O0)
 endif()
 
 # =============================================
@@ -54,9 +55,7 @@ if(NOT TARGET SFML::Graphics)
     set(SFML_BUILD_AUDIO FALSE)    # Disable if not needed
     
     FetchContent_MakeAvailable(SFML)
-    
-    # Keep SFML in workspace but add to .gitignore
-    # file(WRITE "${CMAKE_CURRENT_SOURCE_DIR}/.gitignore" "thirdparty/SFML/\n")
+
 endif()
 
 # =============================================
