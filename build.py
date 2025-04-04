@@ -29,6 +29,7 @@ def main():
           build_type = "Debug"
           subprocess.run(["cmake", 
                         "-DCMAKE_BUILD_TYPE=" + build_type,
+                        "-DCMAKE_EXPORT_COMPILE_COMMANDS=1",
                         "-S", ".", 
                         "-B", "./build"])
 
