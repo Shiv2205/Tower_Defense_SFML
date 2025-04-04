@@ -92,7 +92,7 @@ void TileCritters::MoveCritter( sf::Vertex* critter_vts, int critter_idx )
   { // ? If not default, calculate direction based on current position
     target_pos = curr_critter->getCurrCell()->getNext();
 
-    if ( Position( 0, 0 ) == target_pos )
+    if ( Position( 0, 0 ) == target_pos || curr_critter->isDead() )
     {//? Make Critters invisible when they reach the Exit Cell
       for ( int i = 0; i < 6; i++ )
       {
