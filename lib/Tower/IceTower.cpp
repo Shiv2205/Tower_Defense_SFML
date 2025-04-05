@@ -4,7 +4,7 @@
 using namespace std;
 
 // Constructor with base class initializer list
-IceTower::IceTower() : Tower( "IceTower", 1, 100, 6.0, 1.5, 4.0 )
+IceTower::IceTower() : Tower( "IceTower", 1, 100, 30, 1.5, 4.0 )
 {
 }
 

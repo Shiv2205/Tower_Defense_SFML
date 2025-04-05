@@ -7,7 +7,7 @@
    - Has the fastest build time.
    - Fires rapidly but deals moderate damage.
 */
-ElectricTower::ElectricTower() : Tower( "ElectricTower", 1, 100, 10.0, 5.0, 3.0 )
+ElectricTower::ElectricTower() : Tower( "ElectricTower", 1, 100, 55, 5.0, 3.0 )
 {
 }
 

@@ -1,6 +1,8 @@
 #ifndef MINIENGINE_H
 #define MINIENGINE_H
 
+#include <SFML/Graphics.hpp> 
+#include <SFML/Graphics/CircleShape.hpp>
 #include "Factory/TileLayerFactory.h"
 #include "Map/MapObserver.h"
 #include "Map/Selector/Selector.h"
@@ -14,6 +16,8 @@
 #include "Tower/PoisonTower.h"
 #include "Util/Sfml_Util.h"
 #include "Window/Window.h"
+
+
 
 #define UP           sf::Keyboard::Scan::Up
 #define DOWN         sf::Keyboard::Scan::Down
@@ -66,6 +70,12 @@ extern Selector selector;
 
 // Set Map dimensions
 extern Dimension map_dim;
+//circle 
+extern sf::CircleShape range_circle;
+extern bool show_range;
+extern int selected_tower_range;
+extern bool tower_selected;
+
 
 void        gameInit( void );
 void        gameLoop( void );
