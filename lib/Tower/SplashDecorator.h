@@ -1,7 +1,7 @@
 #ifndef SPLASH_DECORATOR_H
 #define SPLASH_DECORATOR_H
 
-#include "Critters.h"
+#include "Critters/Critters.h"
 #include "TowerDecorator.h"
 #include <cmath>
 #include <iostream>

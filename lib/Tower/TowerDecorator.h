@@ -1,7 +1,7 @@
 // TowerDecorator.h
 #ifndef TOWER_DECORATOR_H
 #define TOWER_DECORATOR_H
-#include "Critters.h"
+#include "Critters/Critters.h"
 #include "Tower.h"
 
 class TowerDecorator : public Tower {

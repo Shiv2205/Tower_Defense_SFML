@@ -5,7 +5,7 @@ int main()
 {
   
   // window.setFramerateLimit(144);
-  critterDemo();
+  // critterDemo();
 
   Engine::gameInit();
 

@@ -1,6 +1,6 @@
 #ifndef FREEZING_DECORATOR_H
 #define FREEZING_DECORATOR_H
-#include "Critters.h"
+#include "Critters/Critters.h"
 #include "TowerDecorator.h"
 #include <iostream>
 

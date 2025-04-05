@@ -1,6 +1,6 @@
 #ifndef BURNING_DECORATOR_H
 #define BURNING_DECORATOR_H
-#include "Critters.h"
+#include "Critters/Critters.h"
 #include "TowerDecorator.h"
 #include <iostream>
 

@@ -1,31 +1,41 @@
 {
-    "configurations": [
+  "configurations": [
       {
-        "name": "Mac",
-        "includePath": [
-          "${workspaceFolder}/include",
-          "${workspaceFolder}/lib",
-          "${workspaceFolder}/lib/Tower",
-          "${workspaceFolder}/lib/Critters",
-          "${workspaceFolder}/lib/Map",
-          "${workspaceFolder}/lib/Engine",
-          "${workspaceFolder}/lib/TileLayer",
-          "${workspaceFolder}/lib/Observer",
-          "${workspaceFolder}/lib/Util",
-          "/opt/homebrew/include",           // for SFML
-          "/opt/homebrew/Cellar/sfml/3.0.0_1/include"
-
-        ],
-        "defines": [
-          "_DEBUG"
-        ],
-        "macFrameworkPath": [],
-        "compilerPath": "/usr/bin/clang++",
-        "cStandard": "c17",
-        "cppStandard": "c++17",
-        "intelliSenseMode": "macos-clang-arm64"
+          "name": "Win32",
+          "includePath": [
+              "${workspaceFolder}/lib"
+          ],
+          "defines": [
+              "_DEBUG",
+              "UNICODE",
+              "_UNICODE"
+          ],
+          "windowsSdkVersion": "10.0.22000.0",
+          "compilerPath": "c:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.43.34808\\bin\\Hostx64\\x64\\cl.exe",
+          "cStandard": "c17",
+          "cppStandard": "c++17",
+          "intelliSenseMode": "windows-msvc-x64"
+      },
+      {
+          "name": "SFML",
+          "includePath": [
+              "${workspaceFolder}/lib",
+              "${workspaceFolder}/include",
+              "/usr/local/include",
+              "${workspaceFolder}/lib/Tower",
+              "${workspaceFolder}/lib/Critters",
+              "${workspaceFolder}/lib/Map"            
+          ],
+          "defines": [
+              "_DEBUG",
+              "UNICODE",
+              "_UNICODE"
+          ],
+          "windowsSdkVersion": "10.0.22000.0",
+          "compilerPath": "/usr/bin/g++",
+          "intelliSenseMode": "gcc-x64",
+          "cppStandard": "c++17"
       }
-    ],
-    "version": 4
-  }
-  
+  ],
+  "version": 4
+}

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include "Tower.h"
+#include "Tower/Tower.h"
 
 class Player {
 private:

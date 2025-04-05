@@ -1,6 +1,6 @@
 #ifndef POISON_DECORATOR_H
 #define POISON_DECORATOR_H
-#include "Critters.h"
+#include "Critters/Critters.h"
 #include "TowerDecorator.h"
 #include <iostream>
 

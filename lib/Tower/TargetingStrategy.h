@@ -3,7 +3,7 @@
 
 #include <vector>
 #include "Tower.h"
-#include "../Critters/Critters.h"
+#include "Critters/Critters.h"
 #include "Map/Map.h"
 
 class TargetingStrategy {
