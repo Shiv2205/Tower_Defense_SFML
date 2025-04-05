@@ -3,7 +3,7 @@
 using namespace std;
 
 // Constructor using Tower base class constructor
-PoisonTower::PoisonTower() : Tower( "PoisonTower", 1, 120, 9.0, 1.0, 6.0 )
+PoisonTower::PoisonTower() : Tower( "PoisonTower", 1, 120, 40, 1.0, 6.0 )
 {
 }
 

@@ -1,4 +1,6 @@
 #include "MiniEngine.h"
+#include <SFML/Graphics.hpp>
+
 
 // Define Global variables
 bool      reload       = true;
@@ -8,6 +10,12 @@ bool      is_exit_set  = false;
 bool      validate_map = false;
 bool      map_is_valid = false;
 GameState game_state   = PATH_BUILDER;
+//circle 
+sf::CircleShape Engine::range_circle;
+bool Engine::show_range = false;
+int Engine::selected_tower_range = 0;
+bool Engine::tower_selected = false;
+
 
 Window      Engine::game_window;
 sf::Font    Engine::font; // Text
@@ -69,6 +77,25 @@ void Engine::gameLoop( void )
     game_window.clear( sf::Color::Black );
 
     game_window.drawContents();
+if (show_range)
+{
+    Position pos = selector.getPos();
+    float tile_size = 32.f;
+
+    float range = static_cast<float>(selected_tower_range);
+    float center_x = pos.col * tile_size + tile_size / 2;
+    float center_y = pos.row * tile_size + tile_size / 2;
+
+    range_circle.setRadius(range);
+    range_circle.setOrigin({ range, range });
+    range_circle.setPosition({ center_x, center_y });
+
+    range_circle.setFillColor(sf::Color(255, 0, 0, 80));  // Semi-transparent red
+    range_circle.setOutlineColor(sf::Color::Red);
+    range_circle.setOutlineThickness(2.f);
+
+    game_window.draw(range_circle);
+}
 
     game_window.display();
   }
@@ -179,36 +206,56 @@ void Engine::buildPathHandler( const sf::Keyboard::Scancode& key_code )
   }
 }
 
-void Engine::addTowerHandler( const sf::Keyboard::Scancode& key_code )
+void Engine::addTowerHandler(const sf::Keyboard::Scancode& key_code)
 {
-  Position new_pos( selector.getPos() );
+    Position new_pos( selector.getPos() );
 
-  if ( ICE == key_code )
-  {
-    if ( ! my_map.AddTower( new_pos, new IceTower() ) )
+    // Select tower and show range circle
+    if ( key_code == ICE )
     {
-      LOG( "Invalid position for Tower: " + new_pos.show() );
+        selected_tower_range = IceTower().getRange();
+        show_range = true;
+        tower_selected = true;
     }
-  }
-  else if ( POISON == key_code )
-  {
-    if ( ! my_map.AddTower( new_pos, new PoisonTower() ) )
+    else if ( key_code == POISON )
     {
-      LOG( "Invalid position for Tower: " + new_pos.show() );
+        selected_tower_range = PoisonTower().getRange();
+        show_range = true;
+        tower_selected = true;
     }
-  }
-  else if ( ELECTRIC == key_code )
-  {
-    if ( ! my_map.AddTower( new_pos, new ElectricTower() ) )
+    else if ( key_code == ELECTRIC )
     {
-      LOG( "Invalid position for Tower: " + new_pos.show() );
+        selected_tower_range = ElectricTower().getRange();
+        show_range = true;
+        tower_selected = true;
     }
-  }
-  else if ( VALIDATE_MAP == key_code )
-  {
-    validate_map = true;
-  }
+
+    // Confirm placement with ENTER
+    else if ( key_code == ENTER && tower_selected )
+    {
+        bool placed = false;
+
+        if (selected_tower_range == IceTower().getRange())
+            placed = my_map.AddTower(new_pos, new IceTower());
+        else if (selected_tower_range == PoisonTower().getRange())
+            placed = my_map.AddTower(new_pos, new PoisonTower());
+        else if (selected_tower_range == ElectricTower().getRange())
+            placed = my_map.AddTower(new_pos, new ElectricTower());
+
+        if (!placed)
+            LOG("Invalid position for Tower: " + new_pos.show());
+
+        // Turn off range circle after placing
+        show_range = false;
+        tower_selected = false;
+    }
+
+    else if ( VALIDATE_MAP == key_code )
+    {
+        validate_map = true;
+    }
 }
+
 
 void Engine::movementHandler( const sf::Keyboard::Scancode& key_code )
 {
